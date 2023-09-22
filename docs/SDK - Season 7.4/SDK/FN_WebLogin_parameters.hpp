@@ -1,0 +1,39 @@
+#pragma once
+
+// Fortnite (7.4) SDK
+// Dumped with <3 by android#1337
+
+#ifdef _MSC_VER
+	#pragma pack(push, 0x8)
+#endif
+
+#include "../SDK.hpp"
+
+namespace SDK
+{
+//---------------------------------------------------------------------------
+//Parameters
+//---------------------------------------------------------------------------
+
+// Function WebLogin.WebLogin_C.DisplayWidget
+struct UWebLogin_C_DisplayWidget_Params
+{
+	class UWidget*                                     WebWidget;                                                // (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, IsPlainOldData)
+};
+
+// Function WebLogin.WebLogin_C.DismissWidget
+struct UWebLogin_C_DismissWidget_Params
+{
+};
+
+// Function WebLogin.WebLogin_C.ExecuteUbergraph_WebLogin
+struct UWebLogin_C_ExecuteUbergraph_WebLogin_Params
+{
+	int                                                EntryPoint;                                               // (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData)
+};
+
+}
+
+#ifdef _MSC_VER
+	#pragma pack(pop)
+#endif

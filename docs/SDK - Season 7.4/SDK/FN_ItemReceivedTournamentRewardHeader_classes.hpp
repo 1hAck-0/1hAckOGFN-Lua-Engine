@@ -1,0 +1,42 @@
+#pragma once
+
+// Fortnite (7.4) SDK
+// Dumped with <3 by android#1337
+
+#ifdef _MSC_VER
+	#pragma pack(push, 0x8)
+#endif
+
+namespace SDK
+{
+//---------------------------------------------------------------------------
+//Classes
+//---------------------------------------------------------------------------
+
+// WidgetBlueprintGeneratedClass ItemReceivedTournamentRewardHeader.ItemReceivedTournamentRewardHeader_C
+// 0x0016 (0x0278 - 0x0262)
+class UItemReceivedTournamentRewardHeader_C : public UItemReceivedHeaderSubWidgetBase_C
+{
+public:
+	unsigned char                                      UnknownData00[0x6];                                       // 0x0262(0x0006) MISSED OFFSET
+	struct FPointerToUberGraphFrame                    UberGraphFrame;                                           // 0x0268(0x0008) (ZeroConstructor, Transient, DuplicateTransient)
+	class UEventRewardGiftboxHeader_C*                 EventRewardGiftboxHeader;                                 // 0x0270(0x0008) (BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, RepSkip, RepNotify, Interp, NonTransactional, EditorOnly, NoDestructor, AutoWeak, ContainsInstancedReference, AssetRegistrySearchable, SimpleDisplay, AdvancedDisplay, Protected, BlueprintCallable, BlueprintAuthorityOnly, TextExportTransient, NonPIEDuplicateTransient, ExposeOnSpawn, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, NativeAccessSpecifierProtected, NativeAccessSpecifierPrivate)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("WidgetBlueprintGeneratedClass ItemReceivedTournamentRewardHeader.ItemReceivedTournamentRewardHeader_C");
+		return ptr;
+	}
+
+
+	void InitFromGiftBoxItem_BP();
+	void OnInitialized();
+	void ExecuteUbergraph_ItemReceivedTournamentRewardHeader(int EntryPoint);
+};
+
+
+}
+
+#ifdef _MSC_VER
+	#pragma pack(pop)
+#endif
