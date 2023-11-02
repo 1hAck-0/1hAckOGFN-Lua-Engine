@@ -8,7 +8,7 @@ Incorporating a new script into the 1hAck menu is a straightforward process. Fol
 
 2. Navigate to the "Scripts" tab within the GUI menu.
 
-3. Scroll down to locate the "Script Explorer."
+3. Scroll down to locate the "Script Explorer".
 
 4. Note the folder path displayed, indicating the default Scripts folder. The path will differ for each user but should resemble `C:\1938572352395\Fortnite\Scripts`.
 
@@ -34,12 +34,12 @@ Incorporating a new script into the 1hAck menu is a straightforward process. Fol
 
 ## Using a Script
 
-Once added, your script will appear in the "Added Scripts" section, located above the "Script Explorer." To activate the script, click the "Run" button. Some scripts may be single-use, meaning they execute once and do not run in the background, those scripts won't ever be shown in the "Active Scripts" section since they are not active in the background.
+Once added, your script will appear in the "Added Scripts" section, located above the "Script Explorer". To activate the script, click the "Run" button. Some scripts may be single-use, meaning they execute once and do not run in the background, those scripts won't ever be shown in the "Active Scripts" section since they are not active in the background.
 
 ### Internal Usage
 
-Be aware that the functions and applications of each script can vary. Always read any documentation or specifications provided at the script's source. If you are using our [Online Script Explorer](online-explorer.md), each script will include a brief description and usage guide, mitigating any concerns unless you use a third-party script.
+Be aware that the functions and applications of each script can vary. Always read any documentation or specifications provided at the script's source. If you are using our [Script Browser](script-browser.md), each script will include a brief description and usage guide, mitigating any concerns unless you use a third-party script.
 
-## Online Script Explorer
+## Script Browser
 
-Once the [Online Script Explorer](online-explorer.md) releases, we will additionally document how to explore, search and add whatever scripts you want.
+Once the [Script Browser](script-browser.md) releases, we will additionally document how to explore, search and add whatever scripts you want.

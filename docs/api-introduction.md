@@ -453,7 +453,7 @@ Congratulations to you for making it this far in the documentation! You're now w
 
 1. **[API Documentation](api.md)**: An important resource that will help you make the most of the built-in libraries. Given their extensive functionalities and applications in cheat development, a good grasp of these libraries is a must.
 
-2. **[Online Script Explorer](online-explorer.md)**: A platform where you can not only explore other scripts but also get recognized for your own contributions. Consider submitting your scripts here, as your work could be awarded and appreciated by a broader audience.
+2. **[Script Browser](script-browser.md)**: A platform where you can not only explore other scripts but also get recognized for your own contributions. Consider submitting your scripts here, as your work could be awarded and appreciated by a broader audience.
 
 Armed with this information and these resources, you're all set to begin your scripting journey - happy coding!
 

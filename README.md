@@ -6,7 +6,7 @@ With the release of version 1.7, [1hAck OG Fortnite](https://1hack.org/shop) int
 
 ## Why Scripting?
 
-We are excited to open up a world of possibilities by enabling our users to create their own scripts. If you lack the time or expertise, worry not! We are in the process of developing an "Online Script Explorer" integrated directly into the tool. This feature will allow users to easily import and deploy a wide variety of scripts, unlocking new functionalities effortlessly. Further details on the script explorer will be available in the resources below.
+We are excited to open up a world of possibilities by enabling our users to create their own scripts. If you lack the time or expertise, worry not! We are in the process of developing an "Script Browser" integrated directly into the tool. This feature will allow users to easily import and deploy a wide variety of scripts, unlocking new functionalities effortlessly. Further details on the script explorer will be available in the resources below.
 
 ## Introduction to Lua and Its Relevance
 
@@ -16,7 +16,7 @@ Lua is a versatile scripting language primarily designed to be embedded into app
 
 ### Summary
 
-To summarize, the newly introduced "Lua Engine" enables users to develop their own features for the tool. Furthermore, we will soon launch an "Online Script Explorer," which will allow users to publish and share their scripts. This feature is slated for release in the coming days or weeks.
+To summarize, the newly introduced "Lua Engine" enables users to develop their own features for the tool. Furthermore, we will soon launch an "Script Browser," which will allow users to publish and share their scripts. This feature is slated for release in the coming days or weeks.
 
 ## Getting Started
 
@@ -34,9 +34,9 @@ If you plan to create your own scripts, you'll need to create a new `.lua` file 
 
 ### Using Existing Scripts
 
-If you prefer to use existing scripts, that's perfectly fine. Please refer to the "How to Add Existing Scripts" section below for instructions. Although there are currently no public scripts available, this will change with the upcoming release of the "Online Script Explorer".
+If you prefer to use existing scripts, that's perfectly fine. Please refer to the "How to Add Existing Scripts" section below for instructions. Although there are currently no public scripts available, this will change with the upcoming release of the "Script Browser".
 
-**WARNING:** It's crucial to be careful when using third-party scripts. Lua is a powerful programming language, and it is entirely possible for malicious scripts to be created. Even though these scripts run within our isolated Engine, they can still access files and the internet. Always be sure to verify the source and integrity of any "unofficial" or "unverified" script before using it. However, rest assured that all scripts submitted to our "Online Script Explorer" will undergo a thorough **verification process** by our development team before being made publicly available. This makes the "Online Script Explorer" a reliable and secure source for obtaining scripts and add-ons once it is launched.
+**WARNING:** It's crucial to be careful when using third-party scripts. Lua is a powerful programming language, and it is entirely possible for malicious scripts to be created. Even though these scripts run within our isolated Engine, they can still access files and the internet. Always be sure to verify the source and integrity of any "unofficial" or "unverified" script before using it. However, rest assured that all scripts submitted to our "Script Browser" will undergo a thorough **verification process** by our development team before being made publicly available. This makes the "Script Browser" a reliable and secure source for obtaining scripts and add-ons once it is launched.
 
 ## [Reporting Bugs and Issues](docs/api.md#reporting-bugs-and-issues)
 
@@ -44,7 +44,7 @@ If you prefer to use existing scripts, that's perfectly fine. Please refer to th
 
 ## Resources
 
-- [About the Online Script Explorer](docs/online-explorer.md)
+- [About the Script Browser](docs/script-browser.md)
 
 - [How to Add Existing Scripts](docs/add-scripts.md)
 
