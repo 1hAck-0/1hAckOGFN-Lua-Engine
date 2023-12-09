@@ -70,6 +70,7 @@
 - [SetColumnOffset](#setcolumnoffset)
 - [SetColumnWidth](#setcolumnwidth)
 - [SetWindowFontScale](#setwindowfontscale)
+- [SetKeyboardFocusHere](#setkeyboardfocushere)
 - [GetBackgroundDrawList](#getbackgrounddrawlist)
 - [GetForegroundDrawList](#getforegrounddrawlist)
 - [GetOverlayDrawList](#getoverlaydrawlist)
@@ -2114,6 +2115,36 @@ None.
 
 ```lua
 imgui.SetWindowFontScale(1.5)
+```
+
+---
+
+### `SetKeyboardFocusHere`
+
+```lua
+function SetKeyboardFocusHere(offset: number[int] = 0) -> none
+```
+
+#### Description
+
+Focuses a widget for keyboard input.
+
+#### Parameters
+
+- `offset`: Offset of the widget to be focused, 0 would be the next widget, 1 the very next widget, etc (default is 0).
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.SetKeyboardFocusHere()
+-- The next widget will be focused by default
+
+-- For example
+input = imgui.InputText("Input", input)
 ```
 
 ---
