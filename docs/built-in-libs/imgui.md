@@ -107,6 +107,7 @@
 - [IsMenuOverlayVisible](#ismenuoverlayvisible)
 - [OpenMenu](#openmenu)
 - [HideMenu](#hidemenu)
+- [GetWindowInfo](#getwindowinfo)
 
 #### Classes (Metatables)
 
@@ -115,6 +116,7 @@
   - [AddLine](#imdrawlistmtaddline)
   - [AddRect](#imdrawlistmtaddrect)
   - [AddRectFilled](#imdrawlistmtaddrectfilled)
+  - [AddRectFilledMultiColor](#imdrawlistaddrectfilledmulticolor)
   - [AddCircle](#imdrawlistmtaddcircle)
   - [AddCircleFilled](#imdrawlistmtaddcirclefilled)
   - [AddTriangle](#imdrawlistmtaddtriangle)
@@ -3104,6 +3106,42 @@ imgui.HideMenu()
 
 ---
 
+### `GetWindowInfo`
+
+```lua
+function GetWindowInfo(name: string) -> table|nil
+```
+
+#### Description
+
+Retrieves information about a specific ImGui window by its name.
+
+#### Parameters
+
+- `name`: The name of the ImGui window to search for.
+
+#### Return Value
+
+A table with the following keys and their corresponding values if the window is found; otherwise, `nil`.
+- `pos`: The position of the window (`vec2`).
+- `size`: The size of the window (`vec2`).
+- `sizeFull`: The full size of the window (`vec2`).
+- `id`: The ID of the window (`number[int]`).
+
+#### Example
+
+```lua
+local windowInfo = imgui.GetWindowInfo("###CheatMenuWindow")
+
+if windowInfo then
+    println("Window info:", tableToStr(windowInfo))
+else
+    println("Window not found")
+end
+```
+
+---
+
 ## Classes (Metatables)
 
 ---
@@ -3251,6 +3289,44 @@ None.
 ```lua
 local draw = imgui.GetBackgroundDrawList()
 draw:AddRectFilled(vec2(10, 10), vec2(100, 100), 0xFFFFFFFF, 5.0, 0)
+```
+
+---
+
+### `ImDrawListMT:AddRectFilledMultiColor`
+
+```lua
+function ImDrawListMT:AddRectFilledMultiColor(
+    minPos: vec2,
+    maxPos: vec2,
+    colUpLeft: number[int]|vec4,
+    colUpRight: number[int]|vec4,
+    colBotRight: number[int]|vec4,
+    colBotLeft: number[int]|vec4
+) -> none
+```
+
+#### Description
+
+Draws a filled rectangle with multicolor vertices. It allows each corner of the rectangle to have a different color, creating a gradient effect across the rectangle.
+
+#### Parameters
+- `minPos`: The minimum (top-left) coordinate of the rectangle.
+- `maxPos`: The maximum (bottom-right) coordinate of the rectangle.
+- `colUpLeft`: The color for the upper-left corner of the rectangle.
+- `colUpRight`: The color for the upper-right corner of the rectangle.
+- `colBotRight`: The color for the bottom-right corner of the rectangle.
+- `colBotLeft`: The color for the bottom-left corner of the rectangle.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:AddRectFilledMultiColor(vec2(50, 50), vec2(150, 150), 0xFF0000FF, 0xFFFF000, 0xFF00FF00, 0xFFFFFFFF)
 ```
 
 ---
