@@ -124,9 +124,9 @@
   - [AddQaud](#imdrawlistmtaddqaud)
   - [AddQaudFilled](#imdrawlistmtaddqaudfilled)
   - [AddImage](#imdrawlistmtaddimage)
-  - [AddBazierCubic](#imdrawlistmtaddbaziercubic)
-  - [AddBazierCurve](#imdrawlistmtaddbaziercurve)
-  - [AddBazierQuadratic](#imdrawlistmtaddbazierquadratic)
+  - [AddBezierCubic](#imdrawlistmtaddbeziercubic)
+  - [AddBezierCurve](#imdrawlistmtaddbeziercurve)
+  - [AddBezierQuadratic](#imdrawlistmtaddbezierquadratic)
   - [AddPolyline](#imdrawlistmtaddpolyline)
 
 
