@@ -127,16 +127,12 @@ function vec2_mt:__le(other)
 	return self.x <= other.x and self.y <= other.y
 end
 
-function vec2_mt:__len()
-	return math.sqrt(self.x * self.x + self.y * self.y)
-end
-
 function vec2_mt:length()
-    return #self
+    return math.sqrt(self.x * self.x + self.y * self.y)
 end
 
 function vec2_mt:magnitude()
-    return #self
+    return self:length()
 end
 
 function vec2_mt:dot(other)
@@ -144,16 +140,20 @@ function vec2_mt:dot(other)
 end
 
 function vec2_mt:distance(other)
-	return #(self - other)
+	return (self - other):length()
 end
 
 function vec2_mt:normalize()
-	local mag = #self
+	local mag = self:length()
 	if mag <= 0.0 then
 		return self
 	end
 
 	return vec2(self.x / mag, self.y / mag)
+end
+
+function vec2_mt:cross(other)
+    return self.x * other.y - self.y * other.x
 end
 
 
@@ -231,16 +231,12 @@ function vec3_mt:__le(other)
 	return self.x <= other.x and self.y <= other.y and self.z <= other.z
 end
 
-function vec3_mt:__len()
-	return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
-end
-
 function vec3_mt:length()
-    return #self
+    return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
 end
 
 function vec3_mt:magnitude()
-    return #self
+    return self:length()
 end
 
 function vec3_mt:dot(other)
@@ -248,16 +244,24 @@ function vec3_mt:dot(other)
 end
 
 function vec3_mt:distance(other)
-	return #(self - other)
+	return (self - other):length()
 end
 
 function vec3_mt:normalize()
-	local mag = #self
+	local mag = self:length()
 	if mag <= 0.0 then
 		return self
 	end
 
 	return vec3(self.x / mag, self.y / mag, self.z / mag)
+end
+
+function vec3_mt:cross(other)
+    return vec3(
+		self.y * other.z - self.z * other.y,
+        self.z * other.x - self.x * other.z,
+        self.x * other.y - self.y * other.x
+    )
 end
 
 
@@ -338,16 +342,12 @@ function vec4_mt:__le(other)
 	return self.x <= other.x and self.y <= other.y and self.z <= other.z and self.w <= other.w
 end
 
-function vec4_mt:__len()
-	return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z + self.w * self.w)
-end
-
 function vec4_mt:length()
-    return #self
+    return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z + self.w * self.w)
 end
 
 function vec4_mt:magnitude()
-    return #self
+    return self:length()
 end
 
 function vec4_mt:dot(other)
@@ -355,16 +355,25 @@ function vec4_mt:dot(other)
 end
 
 function vec4_mt:distance(other)
-	return #(self - other)
+	return (self - other):length()
 end
 
 function vec4_mt:normalize()
-	local mag = #self
+	local mag = self:length()
 	if mag <= 0.0 then
 		return self
 	end
 
 	return vec4(self.x / mag, self.y / mag, self.z / mag, self.w / mag)
+end
+
+function vec4_mt:cross(other)
+    return vec4(
+        self.y * other.z - self.z * other.y,
+        self.z * other.x - self.x * other.z,
+        self.x * other.y - self.y * other.x,
+        0.0
+    )
 end
 
 
