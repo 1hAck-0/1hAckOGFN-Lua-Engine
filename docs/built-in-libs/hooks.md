@@ -208,7 +208,7 @@ function CreateNativeDispatch(funcPtr: number[ptr]) -> number[ptr]|nil
 
 #### Return Value
 
-Returns a pointer to dispatch shellcode for the provided native function, which can be used to thread-safely call this function even outside Lua context.
+Returns a pointer to dispatch shellcode for the provided native function, which can be used to thread-safely call this function even outside Lua context. Returns `nil` if the operation fails for some reason.
 
 #### Example
 ```lua
