@@ -9,6 +9,7 @@
 #### Functions
    - [CreateHook](#createhook)
    - [CreateHookEx](#createhookex)
+   - [CreateNativeDispatch](#createnativedispatch)
 #### Classes (Metatables)
    - [FuncHookMT](#funchookmt)
      - [Enable](#funchookmtenable)
@@ -187,9 +188,50 @@ local myHook = hooks.CreateHookEx(
     true
 )
 assert(myHook, "Failed to initialize myHook")
-
--- ...
 ```
+
+---
+
+### `CreateNativeDispatch`
+
+```lua
+function CreateNativeDispatch(funcPtr: number[ptr]) -> number[ptr]|nil
+```
+
+#### Description
+
+`CreateNativeDispatch` is not directly related to the rest of the `hooks` library, but it's necessary to support thread-safe native Lua functions, which you may need to VMT hook for example. This function creates dispatch shellcode for a provided Lua function to ensure that the Lua state remains thread-safe allowing you to let this function be called even from multiple threads outside of any Lua context.
+
+#### Parameters
+
+- `funcPtr`: Pointer to the native Lua function for which to create a thread-safe dispatch.
+
+#### Return Value
+
+Returns a pointer to dispatch shellcode for the provided native function, which can be used to thread-safely call this function even outside Lua context.
+
+#### Example
+```lua
+function SomeFunction() end
+
+local nativeFunc = ffi.cast("void(*)()", SomeFunction)
+local funcPtr = tonumber(ffi.cast("uintptr_t", nativeFunc))
+
+funcPtr = hooks.CreateNativeDispatch(funcPtr)
+if funcPtr == nil then
+    -- Should never normally happen but possible
+    println("Failed to create native function dispatch!")
+end
+
+println("Safe native function dispatch for SomeFunction:", ptrToStr(funcPtr))
+
+-- Use `funcPtr` only as long as you keep `nativeFunc` referenced!!
+-- You can now safely let `SomeFunction()` be called outside of Lua
+-- context using this function pointer for example to VMT hook
+
+```
+
+---
 
 ## Classes (Metatables)
 
