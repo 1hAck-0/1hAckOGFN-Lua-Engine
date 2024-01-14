@@ -20,6 +20,7 @@
   - [DrawQuadrilateral](#drawquadrilateral)
   - [DrawQuadrilateralFilled](#drawquadrilateralfilled)
   - [DrawBazierCubic](#drawbaziercubic)
+  - [DrawImage](#drawimage)
   - [IsColorVisible](#iscolorvisible)
 
 
@@ -516,6 +517,44 @@ None.
 
 ```lua
 renderer.DrawBazierCubic(vec2(10, 20), vec2(40, 50), vec2(60, 30), vec2(100, 100), vec4(1.0, 0.0, 0.0, 1.0))
+```
+
+---
+
+### `DrawImage`
+
+```lua
+function DrawImage(
+  texture: number[ptr],
+  min: vec2,
+  max: vec2,
+  uvMin: vec2 = vec2(0, 0),
+  uvMax: vec2 = vec2(1, 1),
+  color: number[int] = 0xFFFFFFFF
+) -> none
+```
+
+#### Description
+
+Draws an image texture on the screen. Use [imgui.CreateImageResource](imgui.md#createimageresource) to create an image texture.
+
+#### Parameters
+
+- `texture`: Pointer to the texture to be drawn.
+- `min`: The minimum coordinates for the image.
+- `max`: The maximum coordinates for the image.
+- `uvMin`: The lower UV coordinates for the image, defaulting to `(0, 0)`.
+- `uvMax`: The upper UV coordinates for the image, defaulting to `(1, 1)`.
+- `color`: The filter color of the image, defaulting to white (all channels).
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+renderer.DrawImage(texture, vec2(100, 100), vec2(200, 200))
 ```
 
 ---
