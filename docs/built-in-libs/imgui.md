@@ -30,6 +30,7 @@
 - [InputTextMultiline](#inputtextmultiline)
 - [InputInt](#inputint)
 - [InputDouble](#inputdouble)
+- [DragScalar](#dragscalar)
 - [SetTooltip](#settooltip)
 - [Begin](#begin)
 - [End](#end)
@@ -913,6 +914,49 @@ local value = 5.0
 value, changed = imgui.InputDouble("Enter Value", value, 0.1, 1.0)
 if changed then
   println("Value changed to:", value)
+end
+```
+
+---
+
+### `DragScalar`
+
+```lua
+function DragScalar(
+  label: string,
+  data: table[list[number[float]]],
+  speed: number = 1.0,
+  min: number = 0,
+  max: number = 0,
+  format: string = "%.2f",
+  flags: number[int] = 0
+) -> bool
+```
+
+#### Description
+
+Creates a draggable scalar control widget for one or more components.
+
+#### Parameters
+
+- `label`: The label for the draggable scalar.
+- `data`: A table containing the scalar values to be adjusted.
+- `speed`: The rate of change for the scalar values when dragged, defaulting to `1.0`.
+- `min`: The minimum value for the scalar, defaulting to `0`, a value of `0` indicates no limit.
+- `max`: The maximum value for the scalar, defaulting to `0`, a value of `0` indicates no limit.
+- `format`: The display format of the scalar values, defaulting to `%.2f`.
+- `flags`: Optional flags (`ImGuiSliderFlags`) to adjust the behavior of the draggable scalar.
+
+#### Return Value
+
+Returns `true` if the scalar value(s) were changed, `false` otherwise.
+
+#### Example
+
+```lua
+local values = { 10, 20, 30 }
+if imgui.DragScalar("My Scalar", values, 0.5, 0, 100) then
+    -- Scalar values were changed
 end
 ```
 
