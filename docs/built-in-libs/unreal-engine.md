@@ -1067,6 +1067,39 @@ Returns the head position as a vec3, could be `nil` if not available..
 
 ---
 
+### `GetAllActorsOfClass`
+
+```lua
+function GetAllActorsOfClass(actorClass: number[ptr]) -> table[list[number[ptr]]]|nil
+```
+
+#### Description
+
+Retrieves all actors of a specified class in the game world.
+
+#### Parameters
+
+- `actorClass`: Pointer to the class of the actors to retrieve.
+
+#### Return Value
+
+Returns a table containing all actors of the specified class. Returns `nil` if the operation fails or if the parameters are invalid.
+
+#### Example
+
+```lua
+local actors = unreal_engine.GetAllActorsOfClass(MyActorClass)
+if actors then
+    for _, actor in ipairs(actors) do
+        -- Process each actor
+    end
+else
+    println("Failed to retrieve actors")
+end
+```
+
+---
+
 ## Classes (Metatables)
 
 ---
