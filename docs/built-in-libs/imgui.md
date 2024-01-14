@@ -3782,7 +3782,7 @@ draw:AddPolyline({ vec2(10, 10), vec2(20, 20), vec2(30, 10) }, 0xFFFFFFFF)
 
 ### ImageAssetMT
 
-`ImageAssetMT` provides a high-level easy-to-use interface for rendering any image in various ways using `ImGui`. To create an instance of this class use [CreateImageResource](#createimageresource). The image resource is automatically destroyed and released by the Lua garbage collector when it's no-longer referenced, so using the texture ID after losing all reference to the asset will lead to crashes. You can however manually free the image using the `Free` method at any point.
+`ImageAssetMT` provides a high-level easy-to-use interface for rendering any image in various ways using `ImGui`. To create an instance of this class use [CreateImageResource](#createimageresource). The image resource is automatically destroyed and released by the Lua garbage collector when it's no-longer referenced, so using the texture ID after losing all references to the asset will lead to crashes.
 
 ---
 
