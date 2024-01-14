@@ -131,15 +131,15 @@
   - [AddPolyline](#imdrawlistmtaddpolyline)
 
 - [ImageAssetMT](#imageassetmt)
-  - [GetTextureID](#iamgeassetmtgettextureid)
-  - [GetSize](#iamgeassetmtgetsize)
-  - [IsLoaded](#iamgeassetmtisloaded)
-  - [Free](#iamgeassetmtfree)
-  - [AddImage](#iamgeassetmtaddimage)
-  - [Image](#iamgeassetmtimage)
-  - [ImageButton](#iamgeassetmtimagebutton)
-  - [ImageQuad](#iamgeassetmtimagequad)
-  - [ImageRounded](#iamgeassetmtimagerounded)
+  - [GetTextureID](#imageassetmtgettextureid)
+  - [GetSize](#imageassetmtgetsize)
+  - [IsLoaded](#imageassetmtisloaded)
+  - [Free](#imageassetmtfree)
+  - [AddImage](#imageassetmtaddimage)
+  - [Image](#imageassetmtimage)
+  - [ImageButton](#imageassetmtimagebutton)
+  - [ImageQuad](#imageassetmtimagequad)
+  - [ImageRounded](#imageassetmtimagerounded)
 
 
 
