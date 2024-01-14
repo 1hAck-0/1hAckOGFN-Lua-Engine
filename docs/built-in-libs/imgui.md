@@ -130,7 +130,7 @@
   - [AddBezierQuadratic](#imdrawlistmtaddbezierquadratic)
   - [AddPolyline](#imdrawlistmtaddpolyline)
 
-- [ImageAssetMT](#iamgeassetmt)
+- [ImageAssetMT](#imageassetmt)
   - [GetTextureID](#iamgeassetmtgettextureid)
   - [GetSize](#iamgeassetmtgetsize)
   - [IsLoaded](#iamgeassetmtisloaded)
