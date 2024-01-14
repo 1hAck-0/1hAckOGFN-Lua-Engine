@@ -1089,7 +1089,7 @@ Returns a table containing all actors of the specified class. Returns `nil` if t
 #### Example
 
 ```lua
-local actors = unreal_engine.GetAllActorsOfClass(MyActorClass)
+local actors = ue.GetAllActorsOfClass(MyActorClass)
 if actors then
     for _, actor in ipairs(actors) do
         -- Process each actor
