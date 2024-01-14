@@ -108,6 +108,7 @@
 - [OpenMenu](#openmenu)
 - [HideMenu](#hidemenu)
 - [GetWindowInfo](#getwindowinfo)
+- [CreateImageResource](#createimageresource)
 
 #### Classes (Metatables)
 
@@ -128,6 +129,17 @@
   - [AddBezierCurve](#imdrawlistmtaddbeziercurve)
   - [AddBezierQuadratic](#imdrawlistmtaddbezierquadratic)
   - [AddPolyline](#imdrawlistmtaddpolyline)
+
+- [ImageAssetMT](#iamgeassetmt)
+  - [GetTextureID](#iamgeassetmtgettextureid)
+  - [GetSize](#iamgeassetmtgetsize)
+  - [IsLoaded](#iamgeassetmtisloaded)
+  - [Free](#iamgeassetmtfree)
+  - [AddImage](#iamgeassetmtaddimage)
+  - [Image](#iamgeassetmtimage)
+  - [ImageButton](#iamgeassetmtimagebutton)
+  - [ImageQuad](#iamgeassetmtimagequad)
+  - [ImageRounded](#iamgeassetmtimagerounded)
 
 
 
@@ -3142,6 +3154,40 @@ end
 
 ---
 
+### `CreateImageResource`
+
+```lua
+function CreateImageResource(source: string|number[ptr], sourceSize: number[int] = ?) -> userdata[ImageAssetMT]|nil
+```
+
+#### Description
+
+Creates an image resource from provided image data. It handles both string and pointer types for the source. Supported formats: `.jpg, .jpeg, .png, .bmp, .gif (as static image), .psd, .tga, .hdr, .pic, .pnm`.
+
+#### Parameters
+
+- `source`: The image data as a raw binary string or a pointer to the image data in memory.
+- `sourceSize`: The size of the image data in bytes, required only if `source` is a pointer in memory to the image data.
+
+#### Return Value
+
+Returns `userdata` associated with the `ImageAssetMT` metatble on success, or `nil` on failure.
+
+#### Example
+
+```lua
+local imgData = "\x89\x50.." -- image data in a string
+local imageResource = imgui.CreateImageResource(imgData)
+
+if imageResource then
+    -- Image resource created successfully
+else
+    -- Failed to create image resource, image format or data is unsupported
+end
+```
+
+---
+
 ## Classes (Metatables)
 
 ---
@@ -3545,7 +3591,7 @@ draw:AddQuadFilled(vec2(10, 10), vec2(50, 10), vec2(50, 50), vec2(10, 80), 0xFFF
 
 ```lua
 function ImDrawListMT:AddImage(
-    texture: userdata,
+    texture: number[ptr],
     max: vec2,
     min: vec2,
     uvMin: vec2 = vec2(0, 0),
@@ -3557,11 +3603,11 @@ function ImDrawListMT:AddImage(
 #### Description
 
 Adds an image to the ImDrawList with specified bounds and optional UV and tint color.
-In order to use this function you must first load a supported by ImGui image texture using a third-party library.
+Read more about [images](###imageasset).
 
 #### Parameters
 
-- `texture`: Texture object to render.
+- `texture`: Pointer to the texture object in memory to render.
 - `max`: Upper-right corner of the image rectangle.
 - `min`: Lower-left corner of the image rectangle.
 - `uvMin`: Optional. Lower-left corner of the UV rectangle.
@@ -3575,8 +3621,13 @@ None.
 #### Example
 
 ```lua
+local image_data = "aa00..."
+local texture = imgui.CreateImageResource(mem.bin2hex(image_data))
+
+-- ...
+
 local draw = imgui.GetBackgroundDrawList()
-draw:AddImage(myTexture, vec2(100, 100), vec2(200, 200))
+draw:AddImage(texture:GetTextureID(), vec2(100, 100), vec2(200, 200))
 ```
 
 ---
@@ -3725,6 +3776,323 @@ None.
 ```lua
 local draw = imgui.GetBackgroundDrawList()
 draw:AddPolyline({ vec2(10, 10), vec2(20, 20), vec2(30, 10) }, 0xFFFFFFFF)
+```
+
+---
+
+### ImageAssetMT
+
+`ImageAssetMT` provides a high-level easy-to-use interface for rendering any image in various ways using `ImGui`. To create an instance of this class use [CreateImageResource](#createimageresource). The image resource is automatically destroyed and released by the Lua garbage collector when it's no-longer referenced, so using the texture ID after losing all reference to the asset will lead to crashes. You can however manually free the image using the `Free` method at any point.
+
+---
+
+### `ImageAssetMT:GetTextureID`
+
+```lua
+function ImageAssetMT:GetTextureID() -> number[ptr]
+```
+
+#### Description
+
+Retrieves the texture ID of an `ImageAssetMT` object.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a pointer to the texture of the asset, can be `0` if the asset is freed.
+
+#### Example
+
+```lua
+local textureID = imageAsset:GetTextureID()
+println("Texture ID:", textureID)
+```
+
+---
+
+### `ImageAssetMT:GetSize`
+
+```lua
+function ImageAssetMT:GetSize() -> vec2
+```
+
+#### Description
+
+Retrieves the image size of an asset object as a `vec2` containing width and height.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `vec2` representing the width and height of the image.
+
+#### Example
+
+```lua
+local size = imageAsset:GetSize()
+println("Image size:", size)
+```
+
+---
+
+### `ImageAssetMT:IsLoaded`
+
+```lua
+function ImageAssetMT:IsLoaded() -> bool
+```
+
+#### Description
+
+Determines if the `ImageAssetMT` object has an image loaded.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns `true` if image data is loaded, `false` otherwise.
+
+#### Example
+
+```lua
+local isLoaded = imageAsset:IsLoaded()
+println("Is loaded:", isLoaded)
+```
+
+---
+
+### `ImageAssetMT:Free`
+
+```lua
+function ImageAssetMT:Free() -> none
+```
+
+#### Description
+
+Frees the image resource associated with the `ImageAssetMT` object.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imageAsset:Free()
+```
+
+---
+
+### `ImageAssetMT:AddImage`
+
+```lua
+function ImageAssetMT:AddImage(
+  drawList: userdata[ImDrawListMT],
+  min: vec2,
+  max: vec2,
+  uvMin: vec2 = vec2(0, 0),
+  uvMax: vec2 = vec2(1, 1),
+  color: number[int]|vec4 = 0xFFFFFFFF
+) -> none
+```
+
+#### Description
+
+Adds an image to the specified ImGui drawing list. Use inside ImGui context only.
+
+#### Parameters
+- `drawList`: The drawing list to which the image will be added.
+- `min`: The minimum coordinates for the image.
+- `max`: The maximum coordinates for the image.
+- `uvMin`: The minimum UV coordinates, defaulting to `(0, 0)` if not provided.
+- `uvMax`: The maximum UV coordinates, defaulting to `(1, 1)` if not provided.
+- `color`: Color filter, defaulting to white (all channels) if not provided.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local drawList = imgui.GetBackgroundDrawList()
+imageAsset:AddImage(drawList, vec2(0, 0), vec2(100, 100))
+```
+
+---
+
+### `ImageAssetMT:Image`
+
+```lua
+function ImageAssetMT:Image(
+  scale: vec2 = vec2(1, 1),
+  uv0: vec2 = vec2(0, 0),
+  uv1: vec2 = vec(1, 1),
+  tintCol: number[int]|vec4 = 0xFFFFFFFF,
+  borderCol: number[int]|vec4 = 0
+) -> none
+```
+
+#### Description
+
+Renders the image inside an ImGui window with specified parameters.
+
+#### Parameters
+
+- `scale`: The scale factor for the image, defaulting to `(1, 1)` if not provided.
+- `uv0`: The lower UV coordinates, defaulting to `(0, 0)` if not provided.
+- `uv1`: The upper UV coordinates, defaulting to `(1, 1)` if not provided.
+- `tintCol`: The tint color, defaulting to white if not provided.
+- `borderCol`: The border color, defaulting to transparent if not provided.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Inside ImGui window context
+imageAsset:Image()
+```
+
+---
+
+### `ImageAssetMT:ImageButton`
+
+```lua
+function ImageAssetMT:ImageButton(
+  scale: vec2 = vec2(1, 1),
+  uv0: vec2 = vec2(0, 0),
+  uv1: vec2 = vec2(1, 1),
+  framePadding: number[int] = -1,
+  bgColor: number[int]|vec4 = 0,
+  tintCol: number[int]|vec4 = vec4(1, 1, 1, 1)
+) -> bool
+```
+
+#### Description
+
+Renders an `ImGui` widget button with the image. Use in the context of ImGui windows only.
+
+#### Parameters
+
+- `scale`: The scale factor for the image.
+- `uv0`: The lower UV coordinates.
+- `uv1`: The upper UV coordinates.
+- `framePadding`: Padding around the image within the button, `-1` for default padding.
+- `bgColor`: The background color of the button, defaulting to transparent.
+- `tintCol`: The tint color of the image, defaulting to white.
+
+#### Return Value
+
+Returns `true` if the button is pressed, `false` otherwise.
+
+#### Example
+
+```lua
+-- Inside ImGui window context
+if imageAsset:ImageButton(vec2(0.5, 0.5)) then
+  -- Handle button press
+end
+```
+
+---
+
+### `ImageAssetMT:ImageQuad`
+
+```lua
+function ImageAssetMT:ImageQuad(
+  drawList: userdata[ImDrawListMT],
+  p1: vec2,
+  p2: vec2,
+  p3: vec2,
+  p4: vec2,
+  color: number[int] = 0xFFFFFFFF,
+  uv1: vec2 = vec2(0, 0),
+  uv2: vec2 = vec2(1, 0),
+  uv3: vec2 = vec2(1, 1),
+  uv4: vec2 = vec2(0, 1)
+) -> none
+```
+
+#### Description
+
+Draws an image on the specified ImGui drawing list in a more complex away. Using the 4 control points, it's possible to stretch and rotate the image in complex ways.
+
+#### Parameters
+
+- `drawList`: The drawing list where the image will be added.
+- `p1`: The top-left corner point of the quadrilateral.
+- `p2`: The top-right corner point.
+- `p3`: The bottomn-right corner point.
+- `p4`: The bottom-left corner point.
+- `color`: The filter color of the image, defaulting to white (all channels).
+- `uv1`: The UV coordinates for the first point.
+- `uv2`: The UV coordinates for the second point.
+- `uv3`: The UV coordinates for the third point.
+- `uv4`: The UV coordinates for the fourth point.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imageAsset:ImageQuad(drawList, vec2(10, 10), vec2(100, 10), vec2(100, 100), vec2(10, 100))
+```
+
+---
+
+### `ImageAssetMT:ImageRounded`
+
+```lua
+function ImageAssetMT:ImageRounded(
+  drawList: userdata[ImDrawListMT],
+  min: vec2,
+  max: vec2,
+  rounding: number[float],
+  color: number[int] = 0xFFFFFFFF,
+  flags: number[int] = 0,
+  uvMin: vec2 = vec2(0, 0),
+  uvMax: vec2 = vec2(1, 1)
+) -> none
+```
+
+#### Description
+
+Renders a rounded image on the specified ImGui drawing list.
+
+#### Parameters
+
+- `drawList`: The drawing list where the image will be rendered.
+- `min`: The minimum coordinates for the image.
+- `max`: The maximum coordinates for the image.
+- `rounding`: The radius of the rounding on the corners.
+- `color`: The filter color of the image, defaulting to white (all channels).
+- `flags`: Flags (`ImDrawFlags`) for rendering, defaulting to none.
+- `uvMin`: The lower UV coordinates for the image.
+- `uvMax`: The upper UV coordinates for the image.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imageAsset:ImageRounded(drawList, vec2(30, 30), vec2(130, 80), 10)
 ```
 
 ---
