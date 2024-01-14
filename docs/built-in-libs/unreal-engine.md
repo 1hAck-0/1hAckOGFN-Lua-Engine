@@ -50,6 +50,7 @@
   - [GetViewTargetRootPos](#getviewtargetrootpos)
   - [GetViewTargetPelvisPos](#getviewtargetpelvispos)
   - [GetViewTargetHeadPos](#getviewtargetheadpos)
+  - [GetAllActorsOfClass](#getallactorsofclass)
 #### Classes (Metatables)
   - [TArrayMT](#tarraymt)
     - [Free](#tarraymtfree)
