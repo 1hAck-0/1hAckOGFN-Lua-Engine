@@ -24,6 +24,7 @@
    - [closeConsole](#closeconsole)
    - [getConsoleLog](#getconsolelog)
    - [clearConsole](#clearconsole)
+   - [getScriptPath](#getScriptPath)
 
 #### Classes (Metatables)
    - [UserdataMT](#userdatamt)
@@ -485,6 +486,33 @@ None.
 ```lua
 println("This message will be cleared instantly.")
 clearConsole()
+```
+
+---
+
+### `getScriptPath`
+
+```lua
+function getScriptPath() -> string
+```
+
+#### Description
+
+Retrieves the file path of the currently running script.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `string` representing the file path of the script.
+
+#### Example
+
+```lua
+local scriptPath = getScriptPath()
+println("Current script path:", scriptPath)
 ```
 
 ---
