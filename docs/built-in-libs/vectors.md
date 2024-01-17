@@ -19,9 +19,32 @@ No additional setup is required to use this library. It is globally accessible i
 
 ## Introduction
 
-This library stands out from the other built-in Lua Engine libraries because it is implemented directly in Lua. Initially created before the development of this Lua Engine, we opted to keep the original Lua-based version for now. However, future updates may include a C-based implementation for optimization. Rest assured, the library's functionality will remain unchanged, even if we decide to rewrite it in C.
+The vectors library, previously implemented in Lua, has been rewritten in C. The Lua version was the foundation for the current C-based implementation. While the core functionality remains unchanged, the C version introduces significant performance optimizations. One notable distinction is the **reduced error checking** in the new C library to maximize performance. Consequently, **proper usage of the library is now more reliant on the Lua developers themselves**. For instance, constructing a vector with non-numeric parameters leads to undefined behavior, although the library does not explicitly prevent such usage.
 
-Although the source code is provided for those who are well-versed in Lua, we've prepared an outline of the library's features to facilitate quicker navigation.
+The library in its C implementation now supports a broader range of **vector operations**, encompassing not only vector-to-vector interactions but also operations between vectors and scalar values. This expansion of capabilities allows for more intuitive usage. For instance:
+
+- **Vector and Scalar Operations**: Adding a scalar value to a vector now uniformly increments each component of the vector. An operation like `vec3(1, 2, 3) + 24` would yield `vec3(25, 26, 27)`, where 24 is added to each element of the vector.
+
+- **Cross-Dimension Vector Operations**: The library accommodates operations between vectors of different dimensions. For example, adding `vec4(1.4, 23.22)` to `vec2(58, 12)` results in `vec2(59.4, 35.22)`. This is achieved by aligning the dimensions of the two vectors from the first component and performing element-wise operations.
+
+Previously, in the original Lua library, those examples would yield an error as it was unsupported. These enhancements make the library more flexible and powerful, allowing developers to perform a wider range of mathematical operations with ease.
+
+### Example
+
+```lua
+-- Example demonstrating vector and scalar addition
+local vec = vec3(1, 2, 3) + 24
+println(vec) -- vec3(25, 26, 27)
+
+-- Example showing cross-dimension vector addition
+local vec = vec2(58, 12) + vec4(1.4, 23.22)
+println(vec) -- vec2(59.4, 35.22)
+local vec = vec4(58, 12, 1, 5) + vec2(1.4, 23.22)
+println(vec) -- vec4(59.4, 35.22, 1, 5)
+
+-- Those same principals apply to all mathematical operations including
+-- the other vector methods such as `dot`
+```
 
 ### Metatables
 - `vec2_mt`: The global metatable containing all the `vec2`-related methods.
@@ -44,19 +67,21 @@ At the end of the source code you will notice common aliases for the constructor
 All vector metatables include the following common functions. For details on their parameters, return values, and use-cases, please refer to the source code.
 - `length`
 - `magnitude`
-- `dot`
 - `distance`
+- `dot`
 - `normalize`
+- `cross`
 
-In addition to these, all arithmetic operators such as `+` have been overloaded to enhance the development experience.
+In addition to these, all **arithmetic operators** such as `+` have been overloaded to enhance the development experience.
 
 For the matrix classes, we've provided only one built-in function, since these classes are less frequently required:
 - `__mul`: Overloaded multiplication operator for matrix multiplication.
 
-## Source Code
+## LUA Source Code
+
+It's important to note that this is not a 1 to 1 representation of the current vectors library, because it's been re-written in C.
 
 ```lua
-
 -- vec2 class --
 vec2_mt = {}
 vec2_mt.__index = vec2_mt
@@ -469,6 +494,7 @@ Vec3 = vec3
 Vec4 = vec4
 Matrix3x3 = matrix3x3
 Matrix4x4 = matrix4x4
+FMatrix = matrix4x4
 
 ImVec2 = vec2
 ImVec4 = vec4
