@@ -70,6 +70,7 @@ All vector metatables include the following common functions. For details on the
 - `distance`
 - `dot`
 - `normalize`
+- `rescale`
 - `cross`
 
 In addition to these, all **arithmetic operators** such as `+` have been overloaded to enhance the development experience.
@@ -177,6 +178,10 @@ function vec2_mt:normalize()
 	return vec2(self.x / mag, self.y / mag)
 end
 
+function vec2_mt:rescale(len)
+	return self:normalize() * vec2(len, len)
+end
+
 function vec2_mt:cross(other)
     return self.x * other.y - self.y * other.x
 end
@@ -279,6 +284,10 @@ function vec3_mt:normalize()
 	end
 
 	return vec3(self.x / mag, self.y / mag, self.z / mag)
+end
+
+function vec3_mt:rescale(len)
+	return self:normalize() * vec3(len, len, len)
 end
 
 function vec3_mt:cross(other)
@@ -390,6 +399,10 @@ function vec4_mt:normalize()
 	end
 
 	return vec4(self.x / mag, self.y / mag, self.z / mag, self.w / mag)
+end
+
+function vec4_mt:rescale(len)
+	return self:normalize() * vec4(len, len, len, len)
 end
 
 function vec4_mt:cross(other)
