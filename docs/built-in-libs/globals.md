@@ -24,7 +24,11 @@
    - [closeConsole](#closeconsole)
    - [getConsoleLog](#getconsolelog)
    - [clearConsole](#clearconsole)
-   - [getScriptPath](#getScriptPath)
+   - [getScriptPath](#getscriptpath)
+   - [getScriptFilename](#getscriptfilename)
+   - [getRequirementsPath](#getrequirementspath)
+   - [getDefaultScriptsPath](#getdefaultscriptspath)
+   - [getLuaLibsPath](#getlualibspath)
 
 #### Classes (Metatables)
    - [UserdataMT](#userdatamt)
@@ -47,7 +51,7 @@ No additional setup is required to use this library, as it's automatically loade
 ### `print`
 
 ```lua
-function print(...) -> none
+function println(...) -> none
 ```
 
 #### Description
@@ -65,7 +69,7 @@ None.
 #### Example
 
 ```lua
-print("Pov number:", 595, "\n", "New line")
+println("Pov number:", 595, "\n", "New line")
 ```
 
 ---
@@ -513,6 +517,113 @@ Returns a `string` representing the file path of the script.
 ```lua
 local scriptPath = getScriptPath()
 println("Current script path:", scriptPath)
+```
+
+---
+
+### `getScriptFilename`
+
+```lua
+function getScriptFilename() -> string
+```
+
+#### Description
+
+Retrieves the filename of the currently executing script in the Lua environment.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `string` representing the filename of the current script.
+
+#### Example
+```lua
+println("Current script filename: "..getScriptFilename())
+```
+
+---
+
+### `getRequirementsPath`
+
+```lua
+function getRequirementsPath() -> string|nil
+```
+
+#### Description
+
+Obtains the path to the "Requirements" directory relative to the current script, if available. This is useful for scripts that need to access their requirement files directly. Only works for installed from the Script Browser scripts.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `string` representing the path to the "Requirements" directory. Returns `nil` if the script is not an installed script.
+
+#### Example
+```lua
+local requirementsPath = getRequirementsPath()
+if requirementsPath then
+    println("Requirements Path:"..requirementsPath)
+else
+    println("Requirements Path not available (=> not an installed script).")
+end
+```
+
+---
+
+### `getDefaultScriptsPath`
+
+```lua
+function getDefaultScriptsPath() -> string
+```
+
+#### Description
+
+Fetches the default directory path where scripts are stored.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `string` representing the default scripts directory path.
+
+#### Example
+
+```lua
+println("Default Scripts Path:"..getDefaultScriptsPath())
+```
+
+---
+
+### `getLuaLibsPath`
+
+```lua
+function getLuaLibsPath() -> string
+```
+
+#### Description
+
+Retrieves the directory path of Lua libraries associated with the script manager.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns a `string` representing the Lua libraries directory path.
+
+#### Example
+
+```lua
+println("Lua Libraries Path:"..getLuaLibsPath())
 ```
 
 ---
