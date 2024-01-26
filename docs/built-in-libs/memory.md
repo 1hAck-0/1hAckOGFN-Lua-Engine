@@ -788,7 +788,7 @@ local strAddr = mem.FindWString("Some String")
 ### `FindCodeReference`
 
 ```lua
-function FindCodeReference(ptr: number[ptr]) -> number[ptr]
+function FindCodeReference(ptr: number[ptr], pattern: string = nil) -> number[ptr]
 ```
 
 #### Description
@@ -798,6 +798,7 @@ Finds a reference to a specific address inside the game's code (`.text` section)
 #### Parameters
 
 - `ptr`: The pointer to search for.
+- `pattern`: Optional pattern to match for the bytes in front of the reference. `?` (0x3F) characters will be treated as wildcards.
 
 #### Return Value
 
@@ -806,7 +807,7 @@ Address where the reference is found inside the code.
 #### Example
 
 ```lua
-local codeRef = mem.FindCodeReference(pointer)
+local codeRef = mem.FindCodeReference(pointer, "\x48\x8D?")
 ```
 
 ---

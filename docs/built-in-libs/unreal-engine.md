@@ -10,7 +10,7 @@
 #### [Setting Up the Library ](#setting-up-the-library)
 #### Functions
   - [StaticFindObject](#staticfindobject)
-  - [StaticFindObjectEx](#staticfindobjectex)
+  - [StaticLoadObject](#staticloadobject)
   - [GetNameByIndex](#getnamebyindex)
   - [GetNameByIndexF](#getnamebyindexf)
   - [GetObjectName](#getobjectname)
@@ -18,6 +18,8 @@
   - [ProcessEvent](#processevent)
   - [IsObjectOfClass](#isobjectofclass)
   - [GetObject](#getobject)
+  - [FindObject](#findobject)
+  - [LoadObject](#loadobject)
   - [GetClassOffset](#getclassoffset)
   - [GetObjectByIndex](#getobjectbyindex)
   - [GetObjectsCount](#getobjectscount)
@@ -25,7 +27,7 @@
   - [LineTraceSingle](#linetracesingle)
   - [RotationToVector](#rotationtovector)
   - [StringToFName](#stringtofname)
-  - [FindObjectsOfType](#findobjectsoftype)
+  - [FindObjectsOfClass](#findobjectsofclass)
   - [FreeArray](#freearray)
   - [Free](#free)
   - [FTextToFString](#ftexttofstring)
@@ -110,15 +112,16 @@ Doing so will load the library's functions into a Lua table named `ue`. Feel fre
 
 ```lua
 function StaticFindObject(
-    objectName: string,
+    class: number[ptr],
     outer: number[ptr],
-    exact: bool = false
-) -> number[ptr]
+    objectName: string,
+    exact: bool = false
+) -> number[ptr]|nil
 ```
 
 #### Official Documentation
 
-[StaticFindObject](https://docs.unrealengine.com/4.26/en-US/API/Runtime/CoreUObject/UObject/StaticFindObject/)
+[StaticFindObject](https://docs.unrealengine.com/4.27/en-US/API/Runtime/CoreUObject/UObject/StaticFindObject/)
 
 #### Description
 
@@ -126,65 +129,72 @@ Tries to find an object in memory.
 
 #### Parameters
 
-- `objectName`: the name of the object to be found, e. g. `"Engine.World"`.
-
+- `class`: the address of the class,
 - `outer`: the address of the outer class, can be NULL
-
-- `exact`: read function documentation
+- `objectName`: the name of the object to be found, e. g. `"Engine.World"`.
+- `exact`: read official documentation
 
 #### Return Value
 
-Returns the address of the object, if not found it will be 0.
+Returns the address of the object, if not found it will be `nil`.
 
 #### Example
 
 ```lua
-local worldClass = ue.StaticFindObject("Engine.World", NULL, false)
+local worldClass = ue.StaticFindObject(NULL, NULL, "Engine.World", false)
 
 println("UWorld class:", ptrToStr(worldClass))
 ```
 
 ---
 
-### `StaticFindObjectEx`
+### `StaticLoadObject`
 
 ```lua
-function StaticFindObjectEx(
-    class: number[ptr],
-    outer: number[ptr],
-    objectName: string,
-    exact: bool = false
-) -> number[ptr]
+function StaticLoadObject(
+  class: number[ptr],
+  name: string,
+  filename: string = nil,
+  outer: number[ptr] = 0,
+  loadFlags: number[int] = 0,
+  sandbox: number[ptr] = 0,
+  allowObjectReconciliation: bool = false,
+  instancingContext: number[ptr] = 0
+) -> number[ptr]|nil
 ```
 
 #### Official Documentation
 
-[StaticFindObject](https://docs.unrealengine.com/4.26/en-US/API/Runtime/CoreUObject/UObject/StaticFindObject/)
+[StaticLoadObject](https://docs.unrealengine.com/4.27/en-US/API/Runtime/CoreUObject/UObject/StaticLoadObject/)
 
 #### Description
 
-Tries to find an object in memory, similar to the `StaticFindObject` function above  but actually with more control thanks to the `class` parameter.
+Loads a static object in the Unreal Engine environment. This function is used to load objects of a specified class, by name.
 
 #### Parameters
 
-- `class`: the address of the class,
-
-- `outer`: the address of the outer class, can be NULL
-
-- `objectName`: the name of the object to be found, e. g. `"Engine.World"`.
-
-- `exact`: read official documentation
+- `class`: The class of the object to be loaded.
+- `name`: The name of the object.
+- `filename`: Optional filename for the object.
+- `outer`: Optional outer context for the object.
+- `loadFlags`: Optional loading flags.
+- `sandbox`: Optional sandbox for the object.
+- `allowObjectReconciliation`: Optional flag for object reconciliation.
+- `instancingContext`: Optional instancing context.
 
 #### Return Value
 
-Returns the address of the object, if not found it will be `NULL`.
+Returns the loaded object as pointer if successful, or `nil` if the loading fails.
 
 #### Example
 
 ```lua
-local worldClass = ue.StaticFindObjectEx(NULL, NULL, "Engine.World", false)
-
-println("UWorld class:", ptrToStr(worldClass))
+local myObject = ue.StaticLoadObject(myClass, "/Game/Athena/MyObject")
+if myObject then
+    -- Object loaded successfully
+else
+    -- Failed to load the object
+end
 ```
 
 ---
@@ -192,7 +202,7 @@ println("UWorld class:", ptrToStr(worldClass))
 ### `GetNameByIndex`
 
 ```lua
-function GetNameByIndex(nameIndex: number) -> string
+function GetNameByIndex(nameIndex: number) -> string|nil
 ```
 
 #### Description
@@ -205,7 +215,7 @@ Retrieves the name associated with the given index `FName`.
 
 #### Return Value
 
-Returns the name as a string.
+Returns the name as a string if found, otherwise `nil`.
 
 ---
 
@@ -385,6 +395,43 @@ Returns the object as a userdata object `UObjectMT` or `nil` if not found.
 
 ---
 
+### `FindObject`
+Alias for [GetObject](#GetObject)
+
+---
+
+### `LoadObject`
+
+```lua
+function LoadObject(class: number[ptr], name: string) -> number[ptr]|nil
+```
+
+#### Description
+
+A simplified wrapper for loading objects in the Unreal Engine environment. It loads objects of a specified class by name, without the additional parameters available in [StaticLoadObject](#StaticLoadObject).
+
+#### Parameters
+
+- `class`: Pointer to the class of the object to be loaded.
+- `name`: The name of the object.
+
+#### Return Value
+
+Returns the loaded object's pointer if successful, or `nil` if the loading fails.
+
+#### Example
+
+```lua
+local myObject = ue.LoadObject(myClass, "MyObjectName")
+if myObject then
+    -- Object loaded successfully
+else
+    -- Failed to load the object
+end
+```
+
+---
+
 ### `GetClassOffset`
 
 ```lua
@@ -548,19 +595,19 @@ Returns an FName object, nil if not a valid FName.
 
 ---
 
-### `FindObjectsOfType`
+### `FindObjectsOfClass`
 
 ```lua
-function FindObjectsOfType(class: number[ptr]) -> table[list[number[ptr]]]
+function FindObjectsOfClass(class: number[ptr]) -> table[list[number[ptr]]]
 ```
 
 #### Description
 
-Finds all objects of a given Class loaded in the game.
+Finds all loaded objects of a given class in the game.
 
 #### Parameters
 
-- `class` - A pointer to the UClass representing the Unreal class type to search for.
+- `class` - A pointer to the `UClass` representing the Unreal class type to search for.
 
 #### Return Value
 
