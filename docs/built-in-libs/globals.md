@@ -16,7 +16,6 @@
    - [combineFlags](#combineflags)
    - [getUpTime](#getuptime)
    - [ud2ptr](#ud2ptr)
-   - [lud2ptr](#lud2ptr)
    - [isScriptRunning](#isscriptrunning)
    - [runScript](#runscript)
    - [stopScript](#stopscript)
@@ -303,34 +302,6 @@ The memory address as a number pointer.
 local myUserdata = ...
 local udPtr = ud2ptr(myUserdata)
 println("Userdata address:", ptrToStr(udPtr))
-```
-
----
-
-### `lud2ptr`
-
-```lua
-function lud2ptr(object: userdata) -> number[ptr]
-```
-
-#### Description
-
-Converts a light userdata object to its memory address.
-
-#### Parameters
-
-- `object`: The light userdata object to be converted.
-
-#### Return Value
-
-The memory address as a number pointer.
-
-#### Example
-
-```lua
-local myUserdata = ...
-local ludPtr = lud2ptr(myUserdata)
-println("Light Userdata address:", ptrToStr(ludPtr))
 ```
 
 ---
@@ -679,7 +650,7 @@ function UserdataMT:ptr() -> number[ptr]
 
 #### Description
 
-Retrieves the memory address of light userdata object. Just a shortcut for [lud2ptr](#lud2ptr).
+Retrieves the memory address of light userdata object. Just a shortcut for [ud2ptr](#ud2ptr).
 
 #### Parameters
 
@@ -694,7 +665,7 @@ The memory address as a number pointer.
 ```lua
 local myUserdata = unreal_engine.GetObject(...)
 println(myUserdata:ptr())
-println(lud2ptr(myUserdata)) -- same result as the above
+println(ud2ptr(myUserdata)) -- same result as the above
 ```
 
 ---
