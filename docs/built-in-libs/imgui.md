@@ -109,6 +109,7 @@
 - [OpenMenu](#openmenu)
 - [HideMenu](#hidemenu)
 - [GetWindowInfo](#getwindowinfo)
+- [GetDeltaTime](#getdeltatime)
 - [CreateImageResource](#createimageresource)
 
 #### Classes (Metatables)
@@ -999,7 +1000,7 @@ imgui.SetTooltip("This is a tooltip")
 ### `Begin`
 
 ```lua
-function Begin(label: string, opened: bool = nil, flags: number[int] = 0) -> bool[, bool]
+function Begin(label: string, opened: bool? = nil, flags: number[int] = 0) -> bool[, bool]
 ```
 
 #### Description
@@ -1009,7 +1010,7 @@ Starts a new ImGui window.
 #### Parameters
 
 - `label`: The name of the window.
-- `opened`: Optional parameter to control whether the window is initially open or closed. 
+- `opened`: This optional parameter controls the visibility and state of the close ('X') button in the window's title bar. Passing `nil` disables the close button, making it invisible.
 - `flags`: ImGui window flags (default is 0).
 
 #### Return Value
@@ -1611,7 +1612,7 @@ imgui.PopID()
 ### `PushStyleColor`
 
 ```lua
-function PushStyleColor(colIndex: number[int], color: number[int]|vec4) -> none
+function PushStyleColor(colIndex: number[int], color: number[int]|vec4, push: bool = true) -> none
 ```
 
 #### Description
@@ -1622,6 +1623,7 @@ Pushes a style color onto the stack.
 
 - `colIndex`: Index of the style color (ImGuiCol).
 - `color`: The color value (ImU32 or vec4).
+- `push`: Whether to save and push the original value of the color onto the color stack.
 
 #### Return Value
 
@@ -1667,7 +1669,7 @@ imgui.PopStyleColor()
 ### `PushStyleVar`
 
 ```lua
-function PushStyleVar(VarIndex: number[int], Value: number[float]|vec2) -> none
+function PushStyleVar(varIndex: number[int], value: number[float]|vec2, push: bool = true) -> none
 ```
 
 #### Description
@@ -1678,6 +1680,7 @@ Pushes a style variable onto the stack.
 
 - `varIndex`: Index of the style variable (ImGuiStyleVar).
 - `value`: The value for the variable. Can be a float or vec2 depending on the variable.
+- `push`: Whether to save and push the original value of the variable onto the style var stack.
 
 #### Return Value
 
@@ -1686,7 +1689,7 @@ None.
 #### Example
 
 ```lua
--- Set Winodw Padding
+-- Set Window Padding
 imgui.PushStyleVar(ImGuiStyleVar_WindowPadding, vec2(4, 4))
 
 -- Needs to be popped before next frame using PopStyleVar
@@ -3179,12 +3182,14 @@ Retrieves information about a specific ImGui window by its name.
 
 A table with the following keys and their corresponding values if the window is found; otherwise, `nil`.
 - `pos`: The position of the window (`vec2`).
+- `lastPos`: The position of the window last frame (`vec2`).
 - `size`: The size of the window (`vec2`).
-- `sizeFull`: The full size of the window (`vec2`).
 - `extensionSize`: The extension size of the window (`vec2`).
+- `sizeFull`: The full size of the window (`vec2`).
 - `id`: The ID of the window (`number[int]`).
 - `flags`: The window flags (`number[int]`).
 - `alpha`: The window's alpha value (`number[float]`).
+- `name`: The window's name (`name`).
 
 #### Example
 
@@ -3196,6 +3201,33 @@ if windowInfo then
 else
     println("Window not found")
 end
+```
+
+---
+
+### `GetDeltaTime`
+
+```lua
+function GetDeltaTime() -> number[float]
+```
+
+#### Description
+
+Retrieves the time elapsed since the last frame in seconds, as used by the ImGui system.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the delta time in seconds as a `number[float]`.
+
+#### Example
+
+```lua
+local deltaTime = imgui.GetDeltaTime()
+println("Delta Time:", deltaTime)
 ```
 
 ---
@@ -4176,6 +4208,9 @@ ImGuiWindowFlags_AlwaysUseWindowPadding
 ImGuiWindowFlags_NoNavInputs
 ImGuiWindowFlags_NoNavFocus
 ImGuiWindowFlags_UnsavedDocument
+ImGuiWindowFlags_UseRootDrawList
+ImGuiWindowFlags_RedrawInFrame
+ImGuiWindowFlags_UpdateName
 ImGuiWindowFlags_NoNav
 ImGuiWindowFlags_NoDecoration
 ImGuiWindowFlags_NoInputs
