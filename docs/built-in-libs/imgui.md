@@ -3161,7 +3161,6 @@ imgui.HideMenu()
 ```
 
 ---
-
 ### `GetWindowInfo`
 
 ```lua
@@ -3182,7 +3181,10 @@ A table with the following keys and their corresponding values if the window is 
 - `pos`: The position of the window (`vec2`).
 - `size`: The size of the window (`vec2`).
 - `sizeFull`: The full size of the window (`vec2`).
+- `extensionSize`: The extension size of the window (`vec2`).
 - `id`: The ID of the window (`number[int]`).
+- `flags`: The window flags (`number[int]`).
+- `alpha`: The window's alpha value (`number[float]`).
 
 #### Example
 
