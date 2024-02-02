@@ -36,6 +36,8 @@
 - [End](#end)
 - [BeginGroup](#begingroup)
 - [EndGroup](#endgroup)
+- [BeginDisabled](#begindisabled)
+- [EndDisabled](#enddisabled)
 - [BeginChild](#beginchild)
 - [EndChild](#endchild)
 - [BeginLabeledChild](#beginlabeledchild)
@@ -1110,6 +1112,63 @@ None.
 imgui.BeginGroup()
 -- ... Group contents ...
 imgui.EndGroup()
+```
+
+---
+
+### `BeginDisabled`
+
+```lua
+function BeginDisabled() -> none
+```
+
+#### Description
+
+Begins a disabled group of widgets. Any widgets added after calling `BeginDisabled` and before `EndDisabled` will appear visually disabled and will not be interactive.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.BeginDisabled()
+imgui.Button("Disabled Button")
+imgui.EndDisabled()
+```
+
+---
+
+### `EndDisabled`
+
+```lua
+function EndDisabled() -> none
+```
+
+#### Description
+
+Ends a disabled group started by `BeginDisabled`. Widgets added after calling `EndDisabled` will appear normal and be interactive.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.BeginDisabled()
+imgui.Button("Disabled Button")
+imgui.EndDisabled()
+imgui.Button("Enabled Button")
 ```
 
 ---
