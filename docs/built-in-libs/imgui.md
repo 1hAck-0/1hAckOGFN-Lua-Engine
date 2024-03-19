@@ -133,6 +133,14 @@
   - [AddBezierCurve](#imdrawlistmtaddbeziercurve)
   - [AddBezierQuadratic](#imdrawlistmtaddbezierquadratic)
   - [AddPolyline](#imdrawlistmtaddpolyline)
+  - [ChannelsSplit](#imdrawlistmtchannelssplit)
+  - [ChannelsSetCurrent](#imdrawlistmtchannelssetcurrent)
+  - [ChannelsMerge](#imdrawlistmtchannelsmerge)
+  - [GetClipRectMin](#imdrawlistmtgetcliprectmin)
+  - [GetClipRectMax](#imdrawlistmtgetcliprectmax)
+  - [PushClipRect](#imdrawlistmtpushcliprect)
+  - [PopClipRect](#imdrawlistmtpopcliprect)
+  - [PushClipRectFullScreen](#imdrawlistmtpushcliprectfullscreen)
 
 - [ImageAssetMT](#imageassetmt)
   - [GetTextureID](#imageassetmtgettextureid)
@@ -3913,6 +3921,233 @@ None.
 ```lua
 local draw = imgui.GetBackgroundDrawList()
 draw:AddPolyline({ vec2(10, 10), vec2(20, 20), vec2(30, 10) }, 0xFFFFFFFF)
+```
+
+---
+
+### `ImDrawListMT:ChannelsSplit`
+
+```lua
+function ImDrawListMT:ChannelsSplit(count: number[int]) -> none
+```
+
+#### Description
+
+Splits the draw list into multiple channels. This allows you to draw objects on different layers and then merge them back together. This can be useful for complex rendering scenarios where you need to differ between background and foreground elements.
+
+#### Parameters
+
+- `count`: The number of channels to split into.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:ChannelsSplit(3)
+-- Draw on different channels here
+draw:ChannelsMerge()
+```
+
+---
+
+### `ImDrawListMT:ChannelsSetCurrent`
+
+```lua
+function ImDrawListMT:ChannelsSetCurrent(channel: number[int]) -> none
+```
+
+#### Description
+
+Sets the current channel of the draw list. All subsequent drawing commands will be executed on the selected channel until another channel is selected or `ChannelsMerge` is called.
+
+#### Parameters
+
+- `channel`: The index of the channel to make the current drawing channel.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:ChannelsSplit(2)
+draw:ChannelsSetCurrent(0)
+-- Drawing commands here will affect channel 0
+draw:ChannelsSetCurrent(1)
+-- Drawing commands here will affect channel 1
+draw:ChannelsMerge()
+```
+
+---
+
+### `ImDrawListMT:ChannelsMerge`
+
+```lua
+function ImDrawListMT:ChannelsMerge() -> none
+```
+
+#### Description
+
+Merges previously split channels back into a single draw list. This is used after `ChannelsSplit` and any subsequent `ChannelsSetCurrent` calls to combine the drawing commands executed on separate channels.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:ChannelsSplit(2)
+-- Perform drawing on separate channels
+draw:ChannelsMerge()
+```
+
+---
+
+### `ImDrawListMT:GetClipRectMin`
+
+```lua
+function ImDrawListMT:GetClipRectMin() -> vec2
+```
+
+#### Description
+
+Retrieves the top left corner coordinate of the current clipping rectangle.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the minimum coordinate of the clipping rectangle.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+local min = draw:GetClipRectMin()
+```
+
+---
+
+### `ImDrawListMT:GetClipRectMax`
+
+```lua
+function ImDrawListMT:GetClipRectMax() -> vec2
+```
+
+#### Description
+
+Retrieves the bottom right corner coordinate of the current clipping rectangle.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the maximum coordinate of the clipping rectangle.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+local max = draw:GetClipRectMax()
+```
+
+---
+
+### `ImDrawListMT:PushClipRect`
+
+```lua
+function ImDrawListMT:PushClipRect(min: vec2, max: vec2, intersectWithCurrent: bool = false) -> none
+```
+
+#### Description
+
+Pushes a new clipping rectangle onto the stack, optionally intersecting it with the current clipping rectangle.
+
+#### Parameters
+
+- `min`: The minimum coordinate of the new clipping rectangle.
+- `max`: The maximum coordinate of the new clipping rectangle.
+- `intersectWithCurrent`: Whether to intersect the new rectangle with the current clipping rectangle (default is `false`).
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:PushClipRect(vec2(100, 100), vec2(200, 200))
+```
+
+---
+
+### `ImDrawListMT:PopClipRect`
+
+```lua
+function ImDrawListMT:PopClipRect() -> none
+```
+
+#### Description
+
+Pops the top clipping rectangle from the stack, restoring the previous one.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:PopClipRect()
+```
+
+---
+
+### `ImDrawListMT:PushClipRectFullScreen`
+
+```lua
+function ImDrawListMT:PushClipRectFullScreen() -> none
+```
+
+#### Description
+
+Pushes a clipping rectangle that covers the entire screen onto the stack. This is useful for operations that need to ignore any previously set clipping boundaries and render across the whole available display.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:PushClipRectFullScreen()
 ```
 
 ---
