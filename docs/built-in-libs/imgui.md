@@ -68,6 +68,7 @@
 - [Separator](#separator)
 - [ColorConvertVec4ToU32](#colorconvertvec4tou32)
 - [ColorConvertU32ToVec4](#colorconvertu32tovec4)
+- [GetMixedColor](#getmixedcolor)
 - [Columns](#columns)
 - [NextColumn](#nextcolumn)
 - [SetColumnOffset](#setcolumnoffset)
@@ -2102,6 +2103,35 @@ The color as a vec4 (RGBA).
 
 ```lua
 local vec4Color = imgui.ColorConvertU32ToVec4(0xFFFF00FF)
+```
+
+---
+
+### `GetMixedColor`
+
+```lua
+function GetMixedColor(color1: number[int]|vec4, color2: number[int]|vec4, percentage: number[float] = 0.5, alpha: number[float] = 1.0) -> number[int]
+```
+
+#### Description
+
+Calculates the mixed/blended color between two inputed colors.
+
+#### Parameters
+
+- `color1`: The first color to blend.
+- `color2`: The second color to blend.
+- `percentage`: The blend percentage of `color1` and `color2`, defaulting to `0.5`.
+- `alpha`: The alpha value of the resulting color, defaulting to `1.0`.
+
+#### Return Value
+
+Returns the resulting color as an integer (`ImU32`).
+
+#### Example
+
+```lua
+local mixedColor = imgui.GetMixedColor(0xFF0000FF, 0xFFFF0000)
 ```
 
 ---
