@@ -134,6 +134,7 @@
   - [AddBezierCurve](#imdrawlistmtaddbeziercurve)
   - [AddBezierQuadratic](#imdrawlistmtaddbezierquadratic)
   - [AddPolyline](#imdrawlistmtaddpolyline)
+  - [AddConvexPolyFilled](#imdrawlistmtaddconvexpolyfilled)
   - [ChannelsSplit](#imdrawlistmtchannelssplit)
   - [ChannelsSetCurrent](#imdrawlistmtchannelssetcurrent)
   - [ChannelsMerge](#imdrawlistmtchannelsmerge)
@@ -3951,6 +3952,34 @@ None.
 ```lua
 local draw = imgui.GetBackgroundDrawList()
 draw:AddPolyline({ vec2(10, 10), vec2(20, 20), vec2(30, 10) }, 0xFFFFFFFF)
+```
+
+---
+
+### `ImDrawListMT:AddConvexPolyFilled`
+
+```lua
+function ImDrawListMT:AddConvexPolyFilled(points: table[list[vec2]], color: number[int]|vec4) -> none
+```
+
+#### Description
+
+Draws a filled convex polygon on the draw list. The polygon is defined by a table of points and is filled with the specified color.
+
+#### Parameters
+
+- `points`: A table of points (`vec2`) defining the convex polygon.
+- `color`: The color to fill the polygon with.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:AddConvexPolyFilled({ vec2(100, 100), vec2(150, 50), vec2(200, 150) }, 0xFF0000FF)
 ```
 
 ---
