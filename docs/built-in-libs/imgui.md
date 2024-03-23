@@ -114,6 +114,8 @@
 - [GetWindowInfo](#getwindowinfo)
 - [GetDeltaTime](#getdeltatime)
 - [CreateImageResource](#createimageresource)
+- [CreateFontResource](#createfontresource)
+- [GetFontByTag](#getfontbytag)
 
 #### Classes (Metatables)
 
@@ -154,6 +156,12 @@
   - [ImageButton](#imageassetmtimagebutton)
   - [ImageQuad](#imageassetmtimagequad)
   - [ImageRounded](#imageassetmtimagerounded)
+
+- [FontAssetMT](#fontassetmt)
+  - [Push](#fontassetmtpush)
+  - [Pop](#fontassetmtpop)
+  - [GetSize](#ffontassetmtgetsize)
+  - [GeNativePtr](#fontassetmtgetnativeptr)
 
 
 
@@ -3364,6 +3372,80 @@ end
 
 ---
 
+### `CreateFontResource`
+
+```lua
+function CreateFontResource(
+  tag: number[int]|string,
+  fontData: string|number[ptr],
+  fontDataSize: number[int] = ?,
+  sizePixels: number,
+  forceReload: bool = false,
+  solidIcons: bool = false,
+  regularIcons: bool = false,
+  brandIcons: bool = false
+) -> userdata[FontAssetMT]|nil
+```
+
+#### Description
+
+Creates or retrieves a font resource using a **tagging system** designed to manage ImGui fonts efficiently. ImGui fonts, once loaded, cannot be unloaded or freed. To circumvent this limitation and prevent duplicate font loads, we utilize a tagging system. These tags are persistent **across all scripts** and remain valid throughout the entire lifetime of the menu. Consequently, even if the script that initially created a font resource is unloaded, the font remains accessible to other scripts and can be reused.
+
+#### Parameters
+
+- `tag`: A unique identifier for the font, either as a number or string.
+- `fontData`: A string containing the raw binary font data, **OR** a pointer to the font data in memory.
+- `fontDataSize`: The size of the font data in bytes. **NOT NEEDED** if `fontData` is a string!!
+- `sizePixels`: The size of the font in pixels.
+- `forceReload`: If `true`, forces the font to be reloaded with the new parameters and font data, even if a font with the same tag already exists.
+- `solidIcons`: Enables solid style icons if `true`.
+- `regularIcons`: Enables regular style icons if `true`.
+- `brandIcons`: Enables brand style icons if `true`.
+
+#### Return Value
+
+Returns the font resource on success or `nil` if the font cannot be loaded or created.
+
+#### Example
+
+```lua
+-- Create from memory directly
+local font = imgui.CreateFontResource("my_SansFont", fontDataPtr, fontDataSize, 14)
+
+-- Create from string (notice we are not passing the font data size argument!!)
+local fontData = "\x00\x00\x00..."
+local font = imgui.CreateFontResource("my_SansFont", fontData, 14)
+```
+
+---
+
+### `GetFontByTag`
+
+```lua
+function GetFontByTag(tag: number[int]|string) -> userdata[FontAssetMT]|nil
+```
+
+#### Description
+
+Retrieves a font resource by its unique tag. This can be used to access fonts that have been previously loaded or created, avoiding to have to reload the same font.
+
+#### Parameters
+
+- `tag`: The unique identifier of the font, either as a number or string.
+
+#### Return Value
+
+Returns the font resource if found, or `nil` if there is no font associated with the given tag yet.
+
+#### Example
+
+```lua
+local font = imgui.GetFontByTag("my_SansFont")
+-- Use the font if it exists
+```
+
+---
+
 ## Classes (Metatables)
 
 ---
@@ -4524,6 +4606,119 @@ None.
 
 ```lua
 imageAsset:ImageRounded(drawList, vec2(30, 30), vec2(130, 80), 10)
+```
+
+---
+
+### FontAssetMT
+
+`FontAssetMT` offers a user-friendly approach to managing and utilizing fonts within `ImGui`. To instantiate this class, utilize [CreateFontResource](#createfontresource) or [GetFontByTag](#getfontbytag). The font resource management is designed to be efficient, leveraging a tagging system to reuse font assets across different script instances. Fonts remain **available throughout the menu's lifetime**, ensuring optimal resource use. However, it's important to note that fonts are not unloaded by the Lua garbage collector due to ImGui's font management system, therefore, careful usage is essential to prevent resource leakage.
+
+---
+
+### `FontAssetMT:Push`
+
+```lua
+function FontAssetMT:Push() -> none
+```
+
+#### Description
+
+Applies the font associated with this `FontAssetMT` instance to ImGui, making it the current font for subsequent ImGui text elements.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+fontAsset:Push()
+-- ImGui text elements here will use the pushed font
+```
+
+---
+
+### `FontAssetMT:Pop`
+
+```lua
+function FontAssetMT:Pop() -> none
+```
+
+#### Description
+
+Restores the previously active font before the last `Push` operation, reverting ImGui text elements back to the prior font.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Assuming fontAsset:Push() was called earlier
+fontAsset:Pop()
+-- ImGui text elements now revert to the previous font
+```
+
+---
+
+### `FontAssetMT:GetSize`
+
+```lua
+function FontAssetMT:GetSize() -> number
+```
+
+#### Description
+
+Retrieves the pixel size of the font associated with this `FontAssetMT` instance.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the font size in pixels as a number.
+
+#### Example
+
+```lua
+println("Font size:", fontAsset:GetSize())
+```
+
+---
+
+### `FontAssetMT:GetNativePtr`
+
+```lua
+function FontAssetMT:GetNativePtr() -> number[ptr]
+```
+
+#### Description
+
+Obtains the native pointer to the underlying ImGui font object associated with this `FontAssetMT` instance.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the native pointer to the ImGui font (`ImFont*`) as a `number[ptr]`.
+
+#### Example
+
+```lua
+local fontPtr = fontAsset:GetNativePtr()
 ```
 
 ---
