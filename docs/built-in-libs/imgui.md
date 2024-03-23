@@ -121,6 +121,7 @@
 
 - [ImDrawListMT](#imdrawlistmt)
   - [AddText](#imdrawlistmtaddtext)
+  - [AddTextEx](#imdrawlistmtaddtextex)
   - [AddLine](#imdrawlistmtaddline)
   - [AddRect](#imdrawlistmtaddrect)
   - [AddRectFilled](#imdrawlistmtaddrectfilled)
@@ -3482,6 +3483,45 @@ None.
 local draw = imgui.GetBackgroundDrawList()
 
 draw:AddText(vec2(50, 50), 0xFFFFFFFF, "Hello, ImGui!")
+```
+
+---
+
+### `ImDrawListMT:AddTextEx`
+
+```lua
+function ImDrawListMT:AddTextEx(
+  pos: vec2,
+  color: number[int]|vec4,
+  fontSize: number[float],
+  text: string,
+  wrapWidth: number = 0,
+  clipRect: vec4 = nil
+) -> none
+```
+
+#### Description
+
+Adds text to the draw list with extended options, allowing for specification of font size, text wrapping, and clipping. This method provides finer control over text rendering compared to the basic `AddText` function.
+
+#### Parameters
+
+- `pos`: The position where the text will start.
+- `color`: The color of the text.
+- `fontSize`: The size of the font.
+- `text`: The text to be rendered.
+- `wrapWidth`: Optional width for text wrapping. If `0`, no wrapping is applied.
+- `clipRect`: Optional clipping rectangle (`vec4`) defined as `{min_x, min_y, max_x, max_y}`. If `nil`, no clipping is applied.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+local draw = imgui.GetBackgroundDrawList()
+draw:AddTextEx(vec2(100, 100), 0xFFFFFFFF, 16, "Hello ImGui!", 200, vec4(50, 50, 150, 150))
 ```
 
 ---
