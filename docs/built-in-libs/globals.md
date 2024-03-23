@@ -19,6 +19,7 @@
    - [isScriptRunning](#isscriptrunning)
    - [runScript](#runscript)
    - [stopScript](#stopscript)
+   - [unloadScript](#unloadScript)
    - [isConsoleOpen](#isconsoleopen)
    - [openConsole](#openconsole)
    - [closeConsole](#closeconsole)
@@ -29,6 +30,7 @@
    - [getRequirementsPath](#getrequirementspath)
    - [getDefaultScriptsPath](#getdefaultscriptspath)
    - [getLuaLibsPath](#getlualibspath)
+   - [loadFileResource](#loadfileresource)
 
 #### Classes (Metatables)
    - [UserdataMT](#userdatamt)
@@ -366,6 +368,7 @@ function stopScript() -> bool
 #### Description
 
 Attempts to stop the current script if it's currently active.
+**CAUTION:** the script actually stops first at the **end of the event** that called this function.
 
 #### Return Value
 
@@ -375,6 +378,29 @@ Attempts to stop the current script if it's currently active.
 
 ```lua
 local wasRunning = stopScript()
+```
+
+---
+
+### `unloadScript`
+
+```lua
+function unloadScript() -> none
+```
+
+#### Description
+
+Unloads the script completely from the Lua Engine and frees all resources associated. `onStop` and `onUnload` are still called in order.
+**CAUTION:** the script is actually unloaded first at the **end of the event** that called this function. 
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+unloadScript()
 ```
 
 ---
@@ -624,6 +650,41 @@ Returns a `string` representing the Lua libraries directory path.
 
 ```lua
 println("Lua Libraries Path:"..getLuaLibsPath())
+```
+
+---
+
+### `loadFileResource`
+
+```lua
+function loadFileResource(fileName: string) -> string|false|nil
+```
+
+#### Description
+
+Attempts to load the full content of a specified binary file into a `string`. The function first searches for the file within the script's associated requirements directory (`getRequirementsPath`) before checking the script's own directory (`getScriptPath`) if not found.
+
+#### Parameters
+
+- `fileName`: The name of the file to load.
+
+#### Return Value
+
+- Returns the file content as a `string` if the file is successfully loaded, which can be empty if the file itself is empty.
+- Returns `false` if the file is not found or cannot be opened, typically indicating that the file does not exist.
+- Returns `nil` if an error occurs while reading the file's content, which is a quite unlikely scenario meant to catch unexpected read errors.
+
+#### Example
+
+```lua
+local imageData = loadFileResource("my_image.png")
+if imageData then
+    -- File was successfully loaded and content is now in 'imageData'
+elseif imageData == false then
+    -- File does not exist or could not be opened
+else
+    -- An unexpected error occurred while reading the file
+end
 ```
 
 ---
