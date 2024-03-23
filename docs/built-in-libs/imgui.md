@@ -160,7 +160,7 @@
 - [FontAssetMT](#fontassetmt)
   - [Push](#fontassetmtpush)
   - [Pop](#fontassetmtpop)
-  - [GetSize](#ffontassetmtgetsize)
+  - [GetSize](#fontassetmtgetsize)
   - [GeNativePtr](#fontassetmtgetnativeptr)
 
 
