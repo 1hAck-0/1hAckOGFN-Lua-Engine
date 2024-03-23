@@ -3399,9 +3399,9 @@ Creates or retrieves a font resource using a **tagging system** designed to mana
 - `fontDataSize`: The size of the font data in bytes. **NOT NEEDED** if `fontData` is a string!!
 - `sizePixels`: The size of the font in pixels.
 - `forceReload`: If `true`, forces the font to be reloaded with the new parameters and font data, even if a font with the same tag already exists.
-- `solidIcons`: Enables solid style icons if `true`.
-- `regularIcons`: Enables regular style icons if `true`.
-- `brandIcons`: Enables brand style icons if `true`.
+- `solidIcons`: Enables solid style icons (of FontAwesome) if `true`.
+- `regularIcons`: Enables regular style icons (of FontAwesome) if `true`.
+- `brandIcons`: Enables brand style icons (of FontAwesome) if `true`.
 
 #### Return Value
 
