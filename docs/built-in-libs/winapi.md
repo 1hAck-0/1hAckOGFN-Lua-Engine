@@ -13,6 +13,7 @@
   - [VirtualProtect](#virtualprotect)
   - [VirtualQuery](#virtualquery)
   - [GetProcAddress](#getprocaddress)
+  - [PlaySound](#playsound)
 
 ### [Predefined Constants ](#predefined-constants)
 
