@@ -46,6 +46,10 @@ Feel free to rename the `winapi` Lua table to any variable name that suits your 
 function MessageBox(message: string, title: string = ?, type: number[int] = MB_ICONINFORMATION) -> number[int]
 ```
 
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
+
 #### Description
 
 Displays a standard Windows message box with an optional title and message type.
@@ -63,7 +67,7 @@ Returns the message box response as an integer value.
 #### Example
 
 ```lua
-local response = winapi.MessageBoxA("This is a message", "Title", MB_OKCANCEL)
+local response = winapi.MessageBox("This is a message", "Title", MB_OKCANCEL)
 println("Button pressed:", response)
 ```
 
@@ -74,6 +78,10 @@ println("Button pressed:", response)
 ```lua
 function GetCursorPos() -> vec2
 ```
+
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcursorpos
 
 #### Description
 
@@ -101,6 +109,10 @@ println("Cursor pos:", position)
 ```lua
 function SetCursorPos(pos: vec2) -> bool
 ```
+
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos
 
 #### Description
 
@@ -155,6 +167,10 @@ println("Window pos:", position)
 function VirtualProtect(ptr: number[ptr], size: number[int], newProtect: number[int]) -> bool, number[int]
 ```
 
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect
+
 #### Description
 
 Changes the protection attributes of a region of virtual memory. An invalid pointer won't cause crashes, the function will just fail.
@@ -183,6 +199,10 @@ local success, oldProtect = winapi.VirtualProtect(somePtr, 0x1000, PAGE_READWRIT
 ```lua
 function VirtualQuery(ptr: number[ptr]) -> bool[, table]
 ```
+
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery
 
 #### Description
 
@@ -214,6 +234,10 @@ end
 function GetProcAddress(moduleBase: number[ptr], procName: string) -> number[ptr]
 ```
 
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
+
 #### Description
 
 Retrieves the address of an exported function or variable from the specified module.
@@ -236,6 +260,44 @@ println(ptrToStr(kernel32))
 
 local virtualAlloc = winapi.GetProcAddress(kernel32, "VirtualAlloc")
 println(ptrToStr(virtualAlloc))
+```
+
+---
+
+### `PlaySound`
+
+```lua
+function PlaySound(file: string|number[ptr], flags: number[int], module: number[ptr] = 0) -> bool
+```
+
+#### Official Documentation
+
+https://learn.microsoft.com/en-us/previous-versions/dd743680(v=vs.85)
+
+#### Description
+
+Plays a sound file using the Windows API. This function supports various flags to control playback behavior, and can optionally use a sound resource from a specific module or directly from memory.
+**LIMITATION:** Only `.wav` format files are supported!
+
+#### Parameters
+
+- `file`: The path to the sound file or the name of the sound resource or a direct memory pointer (`number[ptr]`) to the file in memory. See official documentation for details and other usage of this parameter.
+- `flags`: Flags to control playback behavior. These flags can be a combination of `SND_SYNC`, `SND_ASYNC`, `SND_LOOP`, and others defined by the Windows API for `PlaySound`.
+- `module`: Optional. Usually you would not need or use this parameter. See official documentation for details.
+
+#### Return Value
+
+Returns `true` if the sound was successfully played, `false` otherwise.
+
+#### Example
+
+```lua
+local success = winapi.PlaySound("my_file.wav", combineFlags(SND_ASYNC, SND_FILENAME))
+if success then
+  println("Sound is playing.")
+else
+  println("Failed to play sound.")
+end
 ```
 
 ---
@@ -335,4 +397,20 @@ MEM_PRESERVE_PLACEHOLDER
 MEM_DECOMMIT
 MEM_RELEASE
 MEM_FREE
+SND_SYNC
+SND_ASYNC
+SND_NODEFAULT
+SND_MEMORY
+SND_LOOP
+SND_NOSTOP
+SND_NOWAIT
+SND_ALIAS
+SND_ALIAS_ID
+SND_FILENAME
+SND_RESOURCE
+SND_PURGE
+SND_APPLICATION
+SND_SENTRY
+SND_RING
+SND_SYSTEM
 ```

@@ -657,16 +657,17 @@ println("Lua Libraries Path:"..getLuaLibsPath())
 ### `loadFileResource`
 
 ```lua
-function loadFileResource(fileName: string) -> string|false|nil
+function loadFileResource(fileName: string, absolutePath: bool = false) -> string|false|nil
 ```
 
 #### Description
 
-Attempts to load the full content of a specified binary file into a `string`. The function first searches for the file within the script's associated requirements directory (`getRequirementsPath`) before checking the script's own directory (`getScriptPath`) if not found.
+Attempts to load the full content of a specified binary file into a `string`. The function first searches for the file within the script's associated requirements directory (`getRequirementsPath`) before checking the script's own directory (`getScriptPath`) if not found, unless `absolutePath` is `true`, in which case the function just attempts to open the full path provided in `fileName`.
 
 #### Parameters
 
 - `fileName`: The name of the file to load.
+- `absolutePath`: Whether the `fileName` contains an absolute (full) path.
 
 #### Return Value
 
@@ -685,6 +686,9 @@ elseif imageData == false then
 else
     -- An unexpected error occurred while reading the file
 end
+
+-- ... or using an absolute path, notice we provide a full path in the first argument!
+local imageData = loadFileResource("C:\\my_image.png", true)
 ```
 
 ---
