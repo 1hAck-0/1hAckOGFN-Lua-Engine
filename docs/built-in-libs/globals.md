@@ -391,7 +391,7 @@ function unloadScript() -> none
 #### Description
 
 Unloads the script completely from the Lua Engine and frees all resources associated. `onStop` and `onUnload` are still called in order.
-**CAUTION:** the script is actually unloaded first at the **end of the event** that called this function. 
+**CAUTION:** the script is actually first unloaded in the **next render tick** of the engine, however none of the script tick-based-events (like `onRenderTick`) will be called anymore. 
 
 #### Return Value
 

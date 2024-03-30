@@ -318,9 +318,7 @@ Processes an event for a particular object and function.
 #### Parameters
 
 - `object`: the address of the object, should be a valid `UObject`.
-
 - `targetFunc`: the address of the function, should be a valid `UFunction`.
-
 - `params`: a pointer to the parameters in memory necessary for the event, can be 0 if the target function doesn't take or return any values.
 
 #### Return Value
@@ -366,7 +364,6 @@ Checks if an object is an instance of a given class.
 #### Parameters
 
 - `object`: the address of the object, valid `UObject`.
-
 - `class`: the address of the class, valid `UClass`.
 
 #### Return Value
@@ -378,7 +375,7 @@ Returns `true` if the object is of the given class, otherwise `false`.
 ### `GetObject`
 
 ```lua
-function GetObject(objectName: string) -> userdata[UObjectMT]|nil
+function GetObject(objectName: string) -> userdata[UClassMT]|nil
 ```
 
 #### Description
@@ -391,11 +388,12 @@ Retrieves the object associated with the given name. Simplified version of `Stat
 
 #### Return Value
 
-Returns the object as a userdata object `UObjectMT` or `nil` if not found.
+Returns the object as a userdata object `UClassMT` or `nil` if not found.
 
 ---
 
 ### `FindObject`
+
 Alias for [GetObject](#GetObject)
 
 ---
@@ -448,7 +446,6 @@ Gets the offset of a class member.
 #### Parameters
 
 - `className`: the name of the class.
-
 - `memberName`: the name of the class member.
 
 #### Return Value
@@ -460,12 +457,12 @@ Returns the memory offset as a number, `nil` if not found.
 ### `GetObjectByIndex`
 
 ```lua
-function GetObjectByIndex(index: number[int]) -> number[ptr]
+function GetObjectByIndex(index: number[int]) -> number[ptr]|nil
 ```
 
 #### Description
 
-Retrieves the object by its index in memory.
+Retrieves the `UObject` in `GObjects` at the given index.
 
 #### Parameters
 
@@ -473,7 +470,7 @@ Retrieves the object by its index in memory.
 
 #### Return Value
 
-Returns the address of the object if found, otherwise `nil`.
+Returns the address of the object if there is a valid object at the given index, otherwise `nil`.
 
 ---
 
@@ -485,7 +482,7 @@ function GetObjectsCount() -> number[int]
 
 #### Description
 
-Gets the count of objects in memory (`UObject`).
+Gets the count of `UObject`s in memory (owned by `GObjects`).
 
 #### Parameters
 
@@ -540,13 +537,9 @@ Performs a single line trace in the game world.
 #### Parameters
 
 - `lineStart`: the starting point of the line trace.
-
 - `lineEnd`: the ending point of the line trace.
-
 - `traceChannel`: the trace channel to use.
-
 - `fetchResult`: whether to fetch the hit result.
-
 - `actorsToIgnore`: table of actors to ignore during the trace, `data` field must be a `number[ptr]` pointing to the beginning of the array containing the pointers of the actors to ignore in memory, `size` field must be the number of actors to ignore.
 
 #### Return Value
