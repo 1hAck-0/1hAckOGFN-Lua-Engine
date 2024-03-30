@@ -51,6 +51,7 @@
 - [MenuItem](#menuitem)
 - [BeginPopup](#beginpopup)
 - [EndPopup](#endpopup)
+- [BeginPopupModal](#beginpopupmodal)
 - [Popup](#popup)
 - [CloseCurrentPopup](#closecurrentpopup)
 - [OpenPopup](#openpopup)
@@ -1611,6 +1612,42 @@ None.
 ```lua
 -- Within a BeginPopup/EndPopup block
 imgui.EndPopup()
+```
+
+---
+
+### `BeginPopupModal`
+
+```lua
+function BeginPopupModal(name: string, open: bool|nil = nil, flags: number[int] = 0) -> bool, bool|nil
+```
+
+#### Description
+
+Begins a modal popup window **if it is open**. Modal popups block interactions with other windows and must be closed before continuing to interact with other UI elements. This function should be paired with `imgui.EndPopup()` when it returns true to properly close the popup. Even if the passed value of `open` is true, the popup must be opened with `imgui.OpenPopup` to actually display.
+
+#### Parameters
+
+- `name`: The identifier and name for the popup. This is used to distinguish between different popups as well as for the window name.
+- `open`: An optional boolean reference that controls the visibility of the modal popup. If not provided, the popup is always considered open.
+- `flags`: Optional flags to customize the behavior of the popup window (`ImGuiWindowFlags_`).
+
+#### Return Value
+
+1. Boolean indicating whether the popup was actually opened and should render (and hence needs to be closed with `imgui.EndPopup()`).
+2. If the `open` parameter is passed, the second boolean value is the updated state of `open`.
+
+#### Example
+
+```lua
+-- use imgui.OpenPopup("Example Popup") to actually open and show the popup...
+
+local isOpen = true
+local shouldDisplay, isOpen = imgui.BeginPopupModal("Example Popup", isOpen, 0)
+if shouldDisplay then
+    imgui.Text("This is an example modal popup.")
+    imgui.EndPopup()
+end
 ```
 
 ---
