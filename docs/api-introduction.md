@@ -173,6 +173,8 @@ Events are essentially normal Lua functions triggered by the Lua Engine at speci
 
 To better understand when an event is triggered, you can use the `print` function to log its occurrence.
 
+---
+
 ### Initializing Your Script
 
 When your script is loaded, the Lua Engine executes what's known as "global code." This is code that isn't inside a function. Unlike the events described later, this isn't an event; it's just a one-time execution on the Render Thread when your script is loaded.
@@ -187,15 +189,17 @@ When your script is loaded, the Lua Engine executes what's known as "global code
 ```lua
 println("Hello, World!")
 -- This code counts as "global code" because it's not inside a function.
--- It runs when the script is loaded.
+-- It runs ONCE when the script is loaded.
 ```
+
+---
 
 ### onRun Event
 
-This event is triggered once when your script starts running.
+This event is triggered once when your script starts running (by pressing `Run`).
 
 - Parameters: None
-- Return Value: `bool` (Return true if the script should continue running, false otherwise)
+- Return Value: `bool` (Return true if the script should continue running, false to cancel)
 - Thread: Always executed on the Render Thread
 - Common Usage: Resource setup and management for your script
 
@@ -209,9 +213,11 @@ function onRun()
 end
 ```
 
+---
+
 ### onStop Event
 
-This event is triggered once when your script stops or goes from being active to idle. If your script throws a runtime error, the script will be stopped however this event won't be called as it may cause even further runtime errrors.
+This event is triggered once when your script stops or goes from being active to idle. If your script throws a **runtime error**, the script will be stopped however this event **won't be called** as it may cause even further runtime errrors.
 
 - Parameters: None
 - Return Value: `bool` (Return false only if an issue prevents the script from stopping; this will trigger a warning in the console)
@@ -231,6 +237,8 @@ function onStop()
 end
 ```
 
+---
+
 ### onUnload Event
 
 This event triggers when the script is completely unloaded, regardless of whether it was run or just loaded.
@@ -248,6 +256,8 @@ function onUnload()
     -- Final cleanup activities
 end
 ```
+
+---
 
 ### onRenderTick Event
 
@@ -271,6 +281,8 @@ function onRenderTick()
 end
 ```
 
+---
+
 ### onWindowsTick Event
 
 This event also runs on every tick in the Render Thread.
@@ -289,6 +301,8 @@ function onWindowsTick()
     -- Check the ImGui library documentation for more details
 end
 ```
+
+---
 
 ### onGameTick Event
 
@@ -309,33 +323,42 @@ end
 
 **Note**: Although this event runs on the Game Thread, you can still render elements using the built-in `renderer` library. More information on the `renderer` library is available in this repository.
 
+---
+
 ### onSettings Event
 
-This unique event lets you create a custom settings interface for your script. If implemented, a "Settings" option will appear for your script in the "..." drop-down menu.
+This event provides a mechanism to add a customized settings interface to your script. When implemented, it enables a "Settings" button within the "..." drop-down menu associated with your script, granting users access to a dedicated configuration area. By default, this event operates within a pre-established ImGui modal popup, simplifying the process of integrating ImGui widgets for settings management.
 
-- Parameters: None
+To **customize the settings window**, it's possible to bypass the default modal creation by declaring `SETTINGS_EVENT_NO_POPUP` as a global variable at the top of your script. This modifies the event's execution context, positioning it just before the `onWindowsTick` event **without creating an automatic popup**. This gives you the freedom to design a settings window or popup as needed. Despite this change, the expected parameters and handling of return value remain the same.
+
+- Parameters:
+    - `justOpened: bool`: Boolean idicating whether the settings window was just opened and this is the first frame.
 - Return Value: `bool` (Return true to close the settings window, false to keep it open)
 - Thread: Always executed on the Render Thread
-- Common Usage: Crafting a user-friendly GUI to customize your script
+- Common Usage: Creating a user-friendly GUI to allow customizing your script
 
 **Example:**
 
 ```lua
 -- Load the built-in ImGui library; see its documentation for details
-local ImGui = require("imgui", true)
+local imgui = require("imgui", true)
+
+-- you can define SETTINGS_EVENT_NO_POPUP at this point
 
 local myFloat = 4.0 -- Default value
 
-function onSettings()
+function onSettings(justOpened)
     -- Render a slider with a label "Value" that ranges from 1.0 to 10.0
-    myFloat = ImGui.SliderPro("Value", myFloat, 1.0, 10.0)
+    myFloat = imgui.SliderPro("Value", myFloat, 1.0, 10.0)
 
     -- Keep the settings window open by returning false
     return false
 end
-
 -- Use the user-specified myFloat value for your script
+
 ```
+
+---
 
 ### onSaveConfig Event
 
@@ -362,6 +385,8 @@ function onSaveConfig()
     config.SaveMyConfig(myConfig)
 end
 ```
+
+---
 
 ### onLoadConfig Event
 
