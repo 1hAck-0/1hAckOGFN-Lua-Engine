@@ -63,6 +63,7 @@
 - [PopStyleVar](#popstylevar)
 - [GetStyleColor](#getstylecolor)
 - [GetStyleVar](#getstylevar)
+- [GetFontSize](#getfontsize)
 - [Spacing](#spacing)
 - [Dummy](#dummy)
 - [NewLine](#newline)
@@ -2007,6 +2008,32 @@ The value of the variable, can be a float or vec2 depending on the variable.
 
 ```lua
 local value = imgui.GetStyleVar(ImGuiStyleVar_WindowPadding)
+```
+
+---
+
+### `GetFontSize`
+
+```lua
+function GetFontSize() -> number[float]
+```
+
+#### Description
+
+Retrieves the current font size being used by ImGui. This size is the height in pixels, of the font currently set for drawing text elements.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the font size as a float, representing the height of the current font in pixels.
+
+#### Example
+
+```lua
+println("Current ImGui font size:", imgui.GetFontSize())
 ```
 
 ---
