@@ -42,6 +42,10 @@
 - [EndChild](#endchild)
 - [BeginLabeledChild](#beginlabeledchild)
 - [EndLabeledChild](#endlabeledchild)
+- [BeginTabBar](#begintabbar)
+- [EndTabBar](#endtabbar)
+- [BeginTabItem](#begintabitem)
+- [EndTabItem](#endtabitem)
 - [BeginMenu](#beginmenu)
 - [EndMenu](#endmenu)
 - [MenuItem](#menuitem)
@@ -1022,7 +1026,7 @@ imgui.SetTooltip("This is a tooltip")
 ### `Begin`
 
 ```lua
-function Begin(label: string, opened: bool? = nil, flags: number[int] = 0) -> bool[, bool]
+function Begin(label: string, open: bool|nil = nil, flags: number[int] = 0) -> bool, bool|nil
 ```
 
 #### Description
@@ -1032,13 +1036,13 @@ Starts a new ImGui window.
 #### Parameters
 
 - `label`: The name of the window.
-- `opened`: This optional parameter controls the visibility and state of the close ('X') button in the window's title bar. Passing `nil` disables the close button, making it invisible.
+- `open`: This optional parameter controls the visibility and state of the `X` close button in window's title bar. Passing `nil` disables the close button, making it invisible.
 - `flags`: ImGui window flags (default is 0).
 
 #### Return Value
 
 1. Boolean indicating if the window is open.
-2. If `opened` parameter was specified, returns updated boolean value for `opened`.
+2. If `open` parameter was specified, returns updated boolean value for `open`.
 
 #### Example
 
@@ -1325,6 +1329,122 @@ end
 
 ---
 
+### `BeginTabBar`
+
+```lua
+function BeginTabBar(id: string, flags: number[int] = 0) -> none
+```
+
+#### Description
+
+Begins a tab bar with the specified ID.
+
+#### Parameters
+
+- `id`: A unique identifier for the tab bar.
+- `flags`: Optional flags to customize the behavior of the tab bar, using `ImGuiTabBarFlags_`.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.BeginTabBar("MyTabBar")
+-- Add tabs here
+```
+
+---
+
+### `EndTabBar`
+
+```lua
+function EndTabBar() -> none
+```
+
+#### Description
+
+Ends the current tab bar. Should be called only if `BeginTabBar` was previously called.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Assuming imgui.BeginTabBar was called before
+imgui.EndTabBar()
+```
+
+---
+
+### `BeginTabItem`
+
+```lua
+function BeginTabItem(label: string, open: bool|nil = nil, flags: number[int] = 0) -> bool, bool|nil
+```
+
+#### Description
+
+Begins a tab item with the given label. If a tab item is successfully opened, it must be closed with `EndTabItem` during the same frame.
+
+#### Parameters
+
+- `label`: The label for the tab.
+- `open`: This optional parameter controls the visibility and state of the `X` close button in the item tab widget. Passing `nil` disables the close button, making it invisible.
+- `flags`: Optional flags to customize the behavior of the tab item, using `ImGuiTabItemFlags_`.
+
+#### Return Value
+
+1. Returns a boolean indicating whether the tab item is open and should be filled with content.
+2. If `open` is provided, the second return value is a boolean with the updated open state for `open`.
+
+#### Example
+
+```lua
+local isOpen = true
+local render, isOpen = imgui.BeginTabItem("Tab 1", isOpen)
+if render then
+    -- Render tab content here
+    imgui.EndTabItem()
+end
+```
+
+---
+
+### `EndTabItem`
+
+```lua
+function EndTabItem() -> none
+```
+
+#### Description
+
+Ends a tab item. Should be called only if `BeginTabItem` returned true for the tab item being open.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Assuming imgui.BeginTabItem was called and returned true
+imgui.EndTabItem()
+```
+
+---
+
 ### `BeginMenu`
 
 ```lua
@@ -1393,7 +1513,7 @@ function MenuItem(
     shortcut: string = nil,
     selected: bool = nil,
     enabled: bool = true
-) -> bool, bool?
+) -> bool, bool|nil
 ```
 
 #### Description
