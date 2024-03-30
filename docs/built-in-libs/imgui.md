@@ -65,6 +65,7 @@
 - [Indent](#indent)
 - [Unindent](#unindent)
 - [SetNextItemWidth](#setnextitemwidth)
+- [SetNextItemOpen](#setnextitemopen)
 - [Separator](#separator)
 - [ColorConvertVec4ToU32](#colorconvertvec4tou32)
 - [ColorConvertU32ToVec4](#colorconvertu32tovec4)
@@ -2033,6 +2034,34 @@ None.
 ```lua
 imgui.SetNextItemWidth(200.0)
 imgui.InputText("Name", "John Doe", 40)
+```
+
+---
+
+### `SetNextItemOpen`
+
+```lua
+function SetNextItemOpen(isOpen: bool, condition: number[int] = 0) -> none
+```
+
+#### Description
+
+Specifies the open state of the next tree node or collapsing header conditionally. This function must be called right before the tree node or header widget itself.
+
+#### Parameters
+
+- `isOpen`: The desired open state of the next item.
+- `condition`: An optional condition for when the open state should be applied, based on `ImGuiCond_` flags. If `0`, the open state is always applied.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.SetNextItemOpen(true, ImGuiCond_Once)
+-- The next tree node or collapsing header will be open initially
 ```
 
 ---
