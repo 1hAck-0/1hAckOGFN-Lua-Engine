@@ -53,7 +53,7 @@ No additional setup is required to use this library, as it's automatically loade
 ### `print`
 
 ```lua
-function println(...) -> none
+function print(...) -> none
 ```
 
 #### Description
@@ -71,7 +71,9 @@ None.
 #### Example
 
 ```lua
-println("Pov number:", 595, "\n", "New line")
+print("Pov number:", 595, "\n")
+print("New line. ")
+print("This will be on same line lol\n")
 ```
 
 ---
@@ -193,6 +195,36 @@ local myTable = {
 }
 local myTableFormatted = tableToStr(myTable)
 println(myTableFormatted)
+```
+
+---
+
+### `allocStack`
+
+```lua
+function allocStack(size: number[int]) -> bool
+```
+
+#### Description
+
+Attempts to allocate additional space in the Lua stack. This function is useful when you anticipate needing more stack space for operations that push a large number of values onto the stack. It is just a wrapper for the `lua_checkstack` function exposed by the Lua C API, read more [here](https://pgl.yoyo.org/luai/i/lua_checkstack).
+
+#### Parameters
+
+- `size`: The number of additional stack slots requested.
+
+#### Return Value
+
+Returns `true` if the allocation was successful, `false` otherwise.
+
+#### Example
+
+```lua
+if allocStack(10) then
+    println("Stack allocation successful.")
+else
+    println("Failed to allocate to desired stack space.")
+end
 ```
 
 ---
