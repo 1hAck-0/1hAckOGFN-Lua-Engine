@@ -207,7 +207,7 @@ function allocStack(size: number[int]) -> bool
 
 #### Description
 
-Attempts to allocate additional space in the Lua stack. This function is useful when you anticipate needing more stack space for operations that push a large number of values onto the stack. It is just a wrapper for the `lua_checkstack` function exposed by the Lua C API, read more [here](https://pgl.yoyo.org/luai/i/lua_checkstack).
+Attempts to allocate additional space for the Lua state stack. This function is useful when you anticipate needing more stack space for operations that push a large number of values onto the stack. It is just a wrapper for the `lua_checkstack` function exposed by the Lua C API, read more [here](https://pgl.yoyo.org/luai/i/lua_checkstack).
 
 #### Parameters
 
@@ -242,7 +242,7 @@ Creates a deep copy of the provided table up to a specified depth level.
 #### Parameters
 
 - `table`: The source table to be copied.
-- `maxLevel`: The maximum depth level to copy. Defaults to 9.
+- `maxLevel`: The maximum depth level to copy. Defaults to 9. Anything beyond this level is not copied to the new table!
 
 #### Return Value
 
