@@ -20,6 +20,9 @@
    - [runScript](#runscript)
    - [stopScript](#stopscript)
    - [unloadScript](#unloadScript)
+   - [error](#error)
+   - [warn](#warn)
+   - [success](#success)
    - [isConsoleOpen](#isconsoleopen)
    - [openConsole](#openconsole)
    - [closeConsole](#closeconsole)
@@ -432,6 +435,42 @@ None.
 
 ```lua
 unloadScript()
+```
+
+---
+
+### `error`
+### `warn`
+### `success`
+
+```lua
+function error(message: string, openConsole: bool = false, traceCallstack: bool = false, code: number[int] = 0) -> none
+```
+
+#### Description
+
+Logs an error message to the script console's error output area. The `error` function not only displays the message but also throws a Lua error if `traceCallstack` is true, interrupting script execution if `traceCallstack` is `true`. The `warn` and `success` functions behave similarly in logging messages, but do not stop script execution; they just log a warning or success message respectively.
+
+#### Parameters
+
+- `message`: The error message to be logged.
+- `openConsole`: If `true`, opens the console automatically (if not already open) when the error is logged.
+- `traceCallstack`: Adds the Lua callstack to the error message if `true`. For the `error` function, if `true`, a regular runtime Lua error is thrown and the script is stopped.
+- `code`: An optional error code to associate with the message.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- This will log the error, open the console, throw a Lua error, and stop the script with the specified message and code.
+error("An error occurred", true, true, 42)
+
+-- The usage for `warn` and `success` is completely the same in terms of parameters:
+warn("This is a warning", true)
+success("Successfully bypassed Presidio", true)
 ```
 
 ---
