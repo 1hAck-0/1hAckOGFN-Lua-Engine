@@ -55,6 +55,22 @@
 - [Popup](#popup)
 - [CloseCurrentPopup](#closecurrentpopup)
 - [OpenPopup](#openpopup)
+- [BeginTable](#begintable)
+- [EndTable](#endtable)
+- [TableNextRow](#tablenextrow)
+- [TableNextColumn](#tablenextcolumn)
+- [TableSetColumnIndex](#tablesetcolumnindex)
+- [TableSetupColumn](#tablesetupcolumn)
+- [TableSetupScrollFreeze](#tablesetupscrollfreeze)
+- [TableHeadersRow](#tableheadersrow)
+- [TableHeader](#tableheader)
+- [TableGetColumnCount](#tablegetcolumncount)
+- [TableGetColumnIndex](#tablegetcolumnindex)
+- [TableGetRowIndex](#tablegetrowindex)
+- [TableGetColumnName](#tablegetcolumnname)
+- [TableGetColumnFlags](#tablegetcolumnflags)
+- [TableSetColumnEnabled](#tablesetcolumnenabled)
+- [TableSetBgColor](#tablesetbgcolor)
 - [PushID](#pushid)
 - [PopID](#popid)
 - [PushStyleColor](#pushstylecolor)
@@ -1788,6 +1804,455 @@ None.
 
 ```lua
 imgui.OpenPopup("My Popup Id")
+```
+
+---
+
+### `BeginTable`
+
+```lua
+function BeginTable(name: string, columns: number[int], flags: number[int] = 0, outSize: vec2 = vec2(0, 0), innerWidth: number = 0) -> bool
+```
+
+#### Description
+
+Begins a table with specified parameters. Tables support advanced features such as resizable columns, sorting, and more. This function should be matched with a call to `imgui.EndTable()` after the table content.
+
+#### Parameters
+
+- `name`: Unique identifier for the table.
+- `columns`: The number of columns in the table.
+- `flags`: Optional flags to customize the table's behavior.
+- `outSize`: Optional size for the outer table container.
+- `innerWidth`: Optional width for the table's content area.
+
+#### Return Value
+
+Returns `true` if the table is successfully started, otherwise `false`.
+
+#### Example
+
+```lua
+if imgui.BeginTable("MyTable", 3) then
+    -- Define table contents here
+    imgui.EndTable()
+end
+```
+
+---
+
+### `EndTable`
+
+```lua
+function EndTable() -> none
+```
+
+#### Description
+
+Ends a table previously started with `BeginTable`. This function must be called only if `BeginTable` returns `true`.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Assuming imgui.BeginTable was called and returned true
+imgui.EndTable()
+```
+
+---
+
+### `TableNextRow`
+
+```lua
+function TableNextRow(rowFlags: number[int] = 0, minRowHeight: number[float] = 0) -> none
+```
+
+#### Description
+
+Advances to the next row in a table. This function must be called in between rows of table contents.
+
+#### Parameters
+
+- `rowFlags`: Flags for the row. Check `ImGuiRowFlags_`.
+- `minRowHeight`: Minimum height for the row.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.TableNextRow()
+```
+
+---
+
+### `TableNextColumn`
+
+```lua
+function TableNextColumn() -> bool
+```
+
+#### Description
+
+Advances to the next column in a table. Useful for creating table contents in a row-by-row manner.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns `true` if the column is visible and can be populated with content.
+
+#### Example
+
+```lua
+if imgui.TableNextColumn() then
+    -- Fill the column with content
+end
+```
+
+---
+
+### `TableSetColumnIndex`
+
+```lua
+function TableSetColumnIndex(columnIndex: number[int]) -> bool
+```
+
+#### Description
+
+Sets the current column in a table by its index.
+
+#### Parameters
+
+- `columnIndex`: The index of the column to set as current.
+
+#### Return Value
+
+Returns `true` if successful, `false` if the specified column index is out of range.
+
+#### Example
+
+```lua
+if imgui.TableSetColumnIndex(1) then
+    -- Fill the second column with content
+end
+```
+
+---
+
+### `TableSetupColumn`
+
+```lua
+function TableSetupColumn(label: string, flags: number[int] = 0, initWidthOrWeight: number[float] = 0, userID: number[int] = 0) -> none
+```
+
+#### Description
+
+Configures a table column with a specified label, flags, initial width or weight, and an optional ID. This function should be called before populating a table with rows and columns.
+
+#### Parameters
+
+- `label`: The label for the column.
+- `flags`: Column flags. Check ImGuiTableColumnFlags_ enum.
+- `initWidthOrWeight`: Initial width (when `flags` specify width sizing) or weight (when `flags` specify stretch or ratio sizing).
+- `userID`: An optional identifier for the column.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.TableSetupColumn("Column 1", ImGuiTableColumnFlags_DefaultSort, 100)
+```
+
+---
+
+### `TableSetupScrollFreeze`
+
+```lua
+function TableSetupScrollFreeze(cols: number[int], rows: number[int]) -> none
+```
+
+#### Description
+
+Freezes a specified number of columns and rows, preventing them from scrolling. This is useful in tables where you want the first few rows or columns to be always visible.
+
+#### Parameters
+
+- `cols`: Number of columns to freeze.
+- `rows`: Number of rows to freeze.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Freeze the first column and the first row
+imgui.TableSetupScrollFreeze(1, 1)
+```
+
+---
+
+### `TableHeadersRow`
+
+```lua
+function TableHeadersRow() -> none
+```
+
+#### Description
+
+Creates a row of headers for the current table. Each header corresponds to a column in the table.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.TableHeadersRow()
+-- Additional table configuration and population here
+```
+
+---
+
+### `TableHeader`
+
+```lua
+function TableHeader(label: string) -> none
+```
+
+#### Description
+
+Creates a header for the next column in the current table row with the specified label.
+
+#### Parameters
+
+- `label`: The text label for the header.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+imgui.TableNextRow()
+imgui.TableHeader("Column 1")
+imgui.TableHeader("Column 2")
+imgui.TableHeader("Column 3")
+-- Additional table configuration and population here
+```
+
+---
+
+### `TableGetColumnCount`
+
+```lua
+function TableGetColumnCount() -> number[int]
+```
+
+#### Description
+
+Retrieves the number of columns in the current table.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the number of columns as an integer.
+
+#### Example
+
+```lua
+println("Number of columns:", imgui.TableGetColumnCount())
+```
+
+---
+
+### `TableGetColumnIndex`
+
+```lua
+function TableGetColumnIndex() -> number[int]
+```
+
+#### Description
+
+Retrieves the index of the current column within an ImGui table. This is typically used within a table cell to identify which column is being rendered.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the index of the current table column.
+
+#### Example
+
+```lua
+println("Current column index:", imgui.TableGetColumnIndex())
+```
+
+---
+
+### `TableGetRowIndex`
+
+```lua
+function TableGetRowIndex() -> number
+```
+
+#### Description
+
+Gets the index of the current table row. Useful for operations that depend on the row context within table callbacks or cell content generation.
+
+#### Parameters
+
+None.
+
+#### Return Value
+
+Returns the index of the current table row.
+
+#### Example
+
+```lua
+println("Current row index:", imgui.TableGetRowIndex())
+```
+
+---
+
+### `TableGetColumnName`
+
+```lua
+function TableGetColumnName(columnN: number[int] = -1) -> string|nil
+```
+
+#### Description
+
+Retrieves the name of a table column by its index. If no index is provided, it returns the name of the current column.
+
+#### Parameters
+
+- `columnN`: The index of the column. Defaults to the current column if not specified.
+
+#### Return Value
+
+Returns the name of the specified table column as a `string`, or `nil` if the column does not have a name.
+
+#### Example
+
+```lua
+local columnName = imgui.TableGetColumnName(1)
+if columnName then
+    println("Column name:", columnName)
+else
+    println("Column does not have a name")
+end
+```
+
+---
+
+### `TableGetColumnFlags`
+
+```lua
+function TableGetColumnFlags(columnN: number[int] = -1) -> number[int]
+```
+
+#### Description
+
+Obtains the flags for a specific column in an ImGui table. If no column index is specified, it fetches the flags for the current column.
+
+#### Parameters
+
+- `columnN`: The index of the column to retrieve flags for. Defaults to the current column if not specified.
+
+#### Return Value
+
+Returns the flags (as an integer) of the specified table column.
+
+#### Example
+
+```lua
+println("Column flags:", imgui.TableGetColumnFlags(0))
+```
+
+---
+
+### `TableSetColumnEnabled`
+
+```lua
+function TableSetColumnEnabled(columnN: number[int], enabled: bool) -> none
+```
+
+#### Description
+
+Enables or disables a column in the current table. This function is used to dynamically show or hide columns based on runtime conditions.
+
+#### Parameters
+
+- `columnN`: The index of the column to enable or disable.
+- `enabled`: A boolean value indicating whether the column should be enabled (`true`) or disabled (`false`).
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Disables the second column in the current table
+imgui.TableSetColumnEnabled(1, false)
+```
+
+---
+
+### `TableSetBgColor`
+
+```lua
+function TableSetBgColor(target: number[int], color: number[int]|vec4, columnN: number[int] = -1) -> none
+```
+
+#### Description
+
+Sets the background color of a table or a specific column within a table. This function allows for customization of table appearance.
+
+#### Parameters
+
+- `target`: The target of the background color change, which can be specified with `ImGuiTableBgTarget_`.
+- `color`: The color to apply as `ImU32` or a `vec4`.
+- `columnN`: The index of the column to which the background color should be applied. If `-1` (the default), the color is applied according to the `target` parameter.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Sets the background color of the first row background to red
+imgui.TableSetBgColor(ImGuiTableBgTarget_RowBg0, 0xFF0000FF)
 ```
 
 ---
