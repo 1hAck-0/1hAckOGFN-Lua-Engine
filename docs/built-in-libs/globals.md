@@ -377,11 +377,11 @@ function runScript() -> bool
 
 #### Description
 
-Attempts to run the current script if it's not currently active.
+Tries to start the current script if it isn't already running. If the setting Reload on Run is turned on, the script is loaded again from the file before it starts running. The `onRun` event is always called right before the script gets going. It's important to know that the script will only start running **at the end of the event** that requested it. Therefore, if an error occurs before the currently running event returns, the script will be canceled to run.
 
 #### Return Value
 
-`true` if the script wasn't already active and is now set to run, `false` otherwise.
+Returns `true` if the script wasn't already active and is now set to run, `false` otherwise.
 
 #### Example
 
@@ -399,12 +399,11 @@ function stopScript() -> bool
 
 #### Description
 
-Attempts to stop the current script if it's currently active.
-**CAUTION:** the script actually stops first at the **end of the event** that called this function.
+Tries to stop the current script if it is running. The `onStop` even will always get called right before the script fully stops. It's important to know that the script will only stop running **at the end of the event** that requested it. If an error occurs during the currently running event before returning, the script will be stopped anyway.
 
 #### Return Value
 
-`true` if the script was active and is now set to stop, `false` otherwise.
+Returns `true` if the script was active and is now set to stop, `false` otherwise.
 
 #### Example
 
