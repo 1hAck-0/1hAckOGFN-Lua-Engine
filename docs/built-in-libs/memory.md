@@ -39,6 +39,8 @@
     - [GetCurrentTheadId](#getcurrenttheadid)
     - [IsGameThread](#isgamethread)
     - [IsRenderThread](#isrenderthread)
+    - [ReadBit](#readbit)
+    - [ReadBits](#readbits)
     - [ReadUInt8](#readuint8)
     - [ReadByte](#readbyte)
     - [ReadInt8](#readint8)
@@ -63,6 +65,8 @@
     - [ReadVec3](#readvec3)
     - [ReadVec4](#readvec4)
     - [ReadArrayData](#readarraydata)
+    - [WriteBit](#writebit)
+    - [WriteBits](#writebits)
     - [WriteUInt8](#writeuint8)
     - [WriteByte](#writebyte)
     - [WriteInt8](#writeint8)
@@ -81,6 +85,7 @@
     - [WriteFloat](#writefloat)
     - [WriteDouble](#writedouble)
     - [WriteBool](#writebool)
+    - [WriteBinary](#writebinary)
     - [WriteStr](#writestr)
     - [WriteWStr](#writewstr)
     - [WriteVec2](#writevec2)
@@ -767,7 +772,7 @@ function FindWString(str: string) -> number[ptr]
 
 #### Description
 
-Finds a wide-string (16-bit/UTF16) in the game module's `.rdata` section, since all static strings are stored there.
+Finds a UTF-16 (2 bytes per character) string in the game module's `.rdata` section, since all static strings are stored there.
 
 #### Parameters
 
@@ -1038,6 +1043,60 @@ local isRenderThread = mem.IsRenderThread()
 
 ---
 
+### `ReadBit`
+
+```lua
+function ReadBit(address: number[ptr], bit: number[int]) -> bool
+```
+
+#### Description
+
+Reads a specific bit from a memory address. It checks if the bit at the given index within the byte located at the specified address is set or not.
+
+#### Parameters
+
+- `address`: The memory address from which to read the bit.
+- `bit`: The index of the bit to read, where 0 refers to the least significant and 8 to the most significant bit.
+
+#### Return Value
+
+Returns `true` if the specified bit is set, otherwise `false`.
+
+#### Example
+
+```lua
+println("Is the 4th bit set:",  mem.ReadBit(ptr, 3))
+```
+
+---
+
+### `ReadBits`
+
+```lua
+function ReadBits(address: number[ptr], mask: number[int]) -> bool
+```
+
+#### Description
+
+Reads multiple bits from a memory address using a mask. It performs a bitwise AND operation between the byte located at the specified address and the provided mask and returns whether the result is equal to the mask itself, indicating that all bits are set.
+
+#### Parameters
+
+- `address`: The memory address from which to read the bits.
+- `mask`: A bitmask specifying which bits to check. For example, a mask of `0b11` would check the two least significant bits.
+
+#### Return Value
+
+Returns `true` if **all** of the masked bits are set, otherwise `false`.
+
+#### Example
+
+```lua
+println("Are both of the first 2 bits set:", mem.ReadBits(ptr, 0b11))
+```
+
+---
+
 ### `ReadUInt8`
 
 ```lua
@@ -1060,7 +1119,7 @@ Returns the unsigned 8-bit integer read from memory.
 
 ```lua
 local value = mem.ReadUInt8(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1092,7 +1151,7 @@ Returns the signed 8-bit integer read from memory.
 
 ```lua
 local value = mem.ReadInt8(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1124,7 +1183,7 @@ Returns the unsigned 16-bit integer read from memory.
 
 ```lua
 local value = mem.ReadUInt16(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1156,7 +1215,7 @@ Returns the signed 16-bit integer read from memory.
 
 ```lua
 local value = mem.ReadInt16(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1183,7 +1242,7 @@ Returns the unsigned 32-bit integer read from memory.
 
 ```lua
 local value = mem.ReadUInt32(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1215,7 +1274,7 @@ Returns the signed 32-bit integer read from memory.
 
 ```lua
 local value = mem.ReadInt32(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1247,7 +1306,7 @@ Returns the unsigned 64-bit integer read from memory.
 
 ```lua
 local value = mem.ReadUInt64(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1274,7 +1333,7 @@ Returns the signed 64-bit integer read from memory.
 
 ```lua
 local value = mem.ReadInt64(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1311,7 +1370,7 @@ Returns the floating-point number read from memory.
 
 ```lua
 local value = mem.ReadFloat(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1338,7 +1397,7 @@ Returns the double-precision floating-point number read from memory.
 
 ```lua
 local value = mem.ReadDouble(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1365,7 +1424,7 @@ Returns the boolean value read from memory.
 
 ```lua
 local value = mem.ReadBool(validAddr)
-print("Read value:", value)
+println("Read value:", value)
 ```
 
 ---
@@ -1373,17 +1432,17 @@ print("Read value:", value)
 ### `ReadStr`
 
 ```lua
-function ReadStr(ptr: number[ptr], size: number[int]?) -> string
+function ReadStr(ptr: number[ptr], len: number[int] = ?) -> string
 ```
 
 #### Description
 
-Reads a string from the specified memory address. The address is not verified for validtity.
+Reads a UTF-8 (1 byte per character) string from the specified memory address. The address is not verified for validtity.
 
 #### Parameters
 
 - `ptr`: Pointer to the memory address to read from.
-- `size`: Optional. Number of characters to read. If not specified, the function reads until a null-terminator is found.
+- `len`: Optional. Number of characters to read. If not specified, the function reads until a null-terminator is found.
 
 #### Return Value
 
@@ -1393,7 +1452,7 @@ Returns the string read from memory.
 
 ```lua
 local str = mem.ReadStr(validAddr)
-print("Read string:", str)
+println("Read string:", str)
 ```
 
 ---
@@ -1401,17 +1460,17 @@ print("Read string:", str)
 ### `ReadWStr`
 
 ```lua
-function ReadWStr(ptr: number[ptr], size: number[int]?) -> string
+function ReadWStr(ptr: number[ptr], len: number[int] = ?) -> string
 ```
 
 #### Description
 
-Reads a wide-string (16-bit/UTF) from the specified memory address and converts it to a utf-8 string. The address is not verified for validtity.
+Reads a UTF-16 (2 bytes per character) string from the specified memory address and converts it to a UTF-8 string. Characters that can not be translated to UTF-8 are replaced with a single `?` character. The address is not verified for validtity.
 
 #### Parameters
 
 - `ptr`: Pointer to the memory address to read from.
-- `size`: Optional. Number of wide-characters to read. If not specified, the function reads until a null-terminator is found.
+- `len`: Optional. Number of characters to read. If not specified, the function reads until a null-terminator is found.
 
 #### Return Value
 
@@ -1421,7 +1480,7 @@ Returns the converted string read from memory.
 
 ```lua
 local str = mem.ReadWStr(validAddr)
-print("Read wide-string:", str)
+println("Read wide-string:", str)
 ```
 
 ---
@@ -1448,7 +1507,7 @@ Returns the 2D vector read from memory.
 
 ```lua
 local vec = mem.ReadVec2(validAddr)
-print("Read vector:", vec)
+println("Read vector:", vec)
 ```
 
 ---
@@ -1475,7 +1534,7 @@ Returns the 3D vector read from memory.
 
 ```lua
 local vec = mem.ReadVec3(validAddr)
-print("Read vector:", vec)
+println("Read vector:", vec)
 ```
 
 ---
@@ -1502,7 +1561,7 @@ Returns the 4D vector read from memory.
 
 ```lua
 local vec = mem.ReadVec4(validAddr)
-print("Read vector:", vec)
+println("Read vector:", vec)
 ```
 
 ---
@@ -1535,11 +1594,66 @@ Returns the Lua table filled with array data.
 
 ```lua
 local arr = mem.ReadArrayData(validAddr, 5, 4)
-print("Read array:", table.concat(arr, ", "))
+println("Read array:", table.concat(arr, ", "))
 ```
 
 ---
 
+### `WriteBit`
+
+```lua
+function WriteBit(ptr: number[ptr], bit: number[int], value: bool) -> none
+```
+
+#### Description
+
+Sets or clears a single bit in the byte at the given memory address.
+
+#### Parameters
+
+- `ptr`: The memory address of the target byte as a pointer.
+- `bit`: The zero-based index of the bit to modify.
+- `value`: A boolean indicating whether to set (`true`) or clear (`false`) the bit.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Sets the 8th bit of the byte at memory address
+mem.WriteBit(ptr, 7, true)
+```
+
+---
+
+### `WriteBits`
+
+```lua
+function WriteBits(ptr: number[ptr], mask: number[int], value: bool) -> none
+```
+
+#### Description
+
+Sets or clears multiple bits in a byte at the given memory address based on a specified mask.
+
+#### Parameters
+
+- `ptr`: The memory address of the target byte as a pointer number.
+- `mask`: A bitmask representing the bits to modify. Each bit set to `1` in the mask will be affected.
+- `value`: A boolean indicating whether to set (`true`) or clear (`false`) the specified bits.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- Sets the lower 4 bits of the byte at memory address
+mem.WriteBits(ptr, 0b1111, true)
+```
 
 ---
 
@@ -1884,21 +1998,49 @@ mem.WriteBool(validAddr, true)
 
 ---
 
-### `WriteStr`
+### `WriteBinary`
 
 ```lua
-function WriteStr(ptr: number[ptr], value: string, size?: number[int]) -> none
+function WriteBinary(ptr: number[ptr], data: string) -> none
 ```
 
 #### Description
 
-Writes a string to the given memory address, with an optional size parameter. The address is not verified for validity.
+Writes raw binary data from a string to a specified memory address. Every character in the string represents a byte which will be written. The length of the provided string (excluding null-terminator) will be effectively the total number of bytes written. This is quite useful for copying large resources or even shellcode into memory.
+
+#### Parameters
+
+- `ptr`: The destination memory address where the binary data will be written.
+- `data`: The binary data to write, provided as a Lua string. This can include null characters and other non-text bytes.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- 5 bytes are copied from the string to ptr in order
+mem.WriteBinary(ptr, "\x00\x01\x02\x03\x04")
+```
+
+---
+
+### `WriteStr`
+
+```lua
+function WriteStr(ptr: number[ptr], value: string, len: number[int] = ?) -> none
+```
+
+#### Description
+
+Writes a UTF-8 (1 byte per character) string to the given memory address. The address is not verified for validity. The null-terminator is **always** included at the end, even if `len` is specified and ends before the null-terminator of the `value` itself.
 
 #### Parameters
 
 - `ptr`: Pointer to the memory address to write to.
 - `value`: The string value to write.
-- `size` (Optional): The number of characters to write.
+- `len`: Optional number of characters to write, otherwise the full given string (even if it contains a null-terminator).
 
 #### Return Value
 
@@ -1915,18 +2057,18 @@ mem.WriteStr(validAddr, "Hello, World!")
 ### `WriteWStr`
 
 ```lua
-function WriteWStr(ptr: number[ptr], value: string, size?: number[int]) -> none
+function WriteWStr(ptr: number[ptr], value: string, len: number[int] = ?) -> none
 ```
 
 #### Description
 
-Writes a wide-string to the given memory address, with an optional size parameter. The address is not verified for validity.
+Writes a UTF-16 (2 bytes per character) string to the given memory address. The address is not verified for validity. The null-terminator is **always** included at the end, even if `len` is specified and ends before the null-terminator of the `value` itself.
 
 #### Parameters
 
 - `ptr`: Pointer to the memory address to write to.
-- `value`: The wide-string value to write.
-- `size` (Optional): The number of characters to write.
+- `value`: The string value to write.
+- `len`: Optional number of characters to write, otherwise the full given string (even if it contains a null-terminator).
 
 #### Return Value
 
