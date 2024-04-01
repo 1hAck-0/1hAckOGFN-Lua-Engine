@@ -194,6 +194,32 @@ println("Hello, World!")
 
 ---
 
+### onLoaded Event
+
+This event is unique as it guarantees to be called:
+- as the very first event in the entire script
+- only once for the entire lifetime of the script
+- only after the script fully compiled and executed global code
+- if the script is automatically loaded at the menu startup, always at the last stage of menu initialization so that all libraries are intialized and ready for use
+
+
+- Parameters: None
+- Return Value: `bool` (Return true if the script should be marked as fully loaded and avaible to run, false to cancel loading)
+- Thread: Always executed on the Render Thread
+- Common Usage: One-time resource setup and initialization for your script
+
+**Example:**
+
+```lua
+function onLoaded()
+    println("Loaded script!")
+    -- Return true to indicate successful loading process
+    return true
+end
+```
+
+---
+
 ### onRun Event
 
 This event is triggered once when your script starts running (by pressing `Run`).
