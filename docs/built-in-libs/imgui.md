@@ -97,6 +97,7 @@
 - [SetColumnOffset](#setcolumnoffset)
 - [SetColumnWidth](#setcolumnwidth)
 - [SetWindowFontScale](#setwindowfontscale)
+- [SetWindowFocus](#setwindowfocus)
 - [SetKeyboardFocusHere](#setkeyboardfocushere)
 - [GetBackgroundDrawList](#getbackgrounddrawlist)
 - [GetForegroundDrawList](#getforegrounddrawlist)
@@ -2965,6 +2966,36 @@ imgui.SetWindowFontScale(1.5)
 
 ---
 
+### `SetWindowFocus`
+
+```lua
+function SetWindowFocus(window: number[ptr] = ?) -> none
+```
+
+#### Description
+
+Sets the focus to a specified window or to the currently active window if no argument is provided. Focusing a window brings it to the foreground, making it the active window for user interaction. Use `GetWindowInfo` to obtain the pointer of a specific window.
+
+#### Parameters
+
+- `window`: Optional. Pointer to the window instance to focus. If not provided, the current window will be focused.
+
+#### Return Value
+
+None.
+
+#### Example
+
+```lua
+-- To focus the current window
+imgui.SetWindowFocus()
+
+-- To focus a specific window, assuming `windowPtr` is a valid ImGuiWindow pointer
+imgui.SetWindowFocus(windowPtr)
+```
+
+---
+
 ### `SetKeyboardFocusHere`
 
 ```lua
@@ -3966,6 +3997,7 @@ Retrieves information about a specific ImGui window by its name.
 #### Return Value
 
 A table with the following keys and their corresponding values if the window is found; otherwise, `nil`.
+- `ptr`: Pointer to the instance of the window structure (`ImGuiWindow`) in memory (`number[ptr]`).
 - `pos`: The position of the window (`vec2`).
 - `lastPos`: The position of the window last frame (`vec2`).
 - `size`: The size of the window (`vec2`).
