@@ -3983,16 +3983,16 @@ imgui.HideMenu()
 ### `GetWindowInfo`
 
 ```lua
-function GetWindowInfo(name: string) -> table|nil
+function GetWindowInfo(name: string = ?) -> table|nil
 ```
 
 #### Description
 
-Retrieves information about a specific ImGui window by its name.
+Retrieves information about a specific ImGui window by its name or the current window if not provided.
 
 #### Parameters
 
-- `name`: The name of the ImGui window to search for.
+- `name`: Optional. The name of the ImGui window to search for. If not provided, the information about the current window is returned.
 
 #### Return Value
 
