@@ -4006,7 +4006,7 @@ A table with the following keys and their corresponding values if the window is 
 - `id`: The ID of the window (`number[int]`).
 - `flags`: The window flags (`number[int]`).
 - `alpha`: The window's alpha value (`number[float]`).
-- `name`: The window's name (`name`).
+- `name`: The window's name (`string`).
 
 #### Example
 
