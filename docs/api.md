@@ -94,8 +94,6 @@ Our engine comes packed with an assortment of built-in libraries that serve as y
 **Why should you explore these libraries?**  
 Having an overview of what's available can save you time and prevent you from "reinventing the wheel." You might discover that a particular function you were considering to write from scratch is already a part of our robust libraries.
 
-Certainly, documenting how to read function prototypes in your custom documentation style is important for clarity and effective use of the libraries. Here's how you can document and explain the function prototype syntax for Lua in your libraries:
-
 ## Understanding Function Prototypes
 
 In this documentation, we use a custom prototype syntax to describe the signature of Lua functions in the built-in libraries. The syntax is inspired by Python and tailored to the specific needs and features of Lua. Below is a guide to understanding the components of our function prototypes:
