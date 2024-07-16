@@ -468,6 +468,10 @@ Third-party libraries offer functionalities beyond those found in Lua Standard o
 
 **Important**: This engine supports Lua up to version 5.1. Ensure your third-party library is compatible with this version.
 
+> **Note:** With our new config system folder names are now encrypted, so identifying the `LuaLibs` folder directly is difficult. Instead right click the script folder field in the "Scripts" tab and click on "LuaLibs Folder" to easily navigate to it.
+
+![Script Explorer Folder Options](images/script-explorer-folders.png)
+
 To summarize the steps:
 
 1. Locate the `.dll` or `.lua` file for the library you wish to use.
