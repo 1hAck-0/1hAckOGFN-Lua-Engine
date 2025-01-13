@@ -20,6 +20,7 @@
   - [GetObject](#getobject)
   - [FindObject](#findobject)
   - [LoadObject](#loadobject)
+  - [LoadAsset](#loadasset)
   - [GetClassOffset](#getclassoffset)
   - [GetObjectByIndex](#getobjectbyindex)
   - [GetObjectsCount](#getobjectscount)
@@ -425,6 +426,39 @@ if myObject then
     -- Object loaded successfully
 else
     -- Failed to load the object
+end
+```
+
+---
+
+### `LoadAsset`
+
+```lua
+function LoadAsset(name: number[int], showDelayTimes: bool = false) -> number[ptr]|nil
+```
+
+#### Description
+
+Loads an Unreal Engine asset by its name (`FName`). This function returns the asset's pointer (`UObject*`).
+
+#### Parameters
+
+- `name`: The `FName` integer representation of the asset's name (as a `number[int]`).
+- `showDelayTimes`: A boolean flag to indicate whether to display loading delay times in the console output of the game, default is `false`.
+
+#### Return Value
+
+Returns the asset's pointer (`UObject*`) if the asset is successfully loaded. Returns `nil` if the asset could not be loaded.
+
+#### Example
+
+```lua
+local FNameInt = ...
+local assetPtr = ue.LoadAsset(FNameInt)
+if assetPtr then
+    -- Asset loaded successfully
+else
+    println("Failed to load asset")
 end
 ```
 
