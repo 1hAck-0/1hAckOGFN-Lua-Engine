@@ -28,6 +28,7 @@ Welcome to the comprehensive API Documentation for this Lua Engine.
   - [Config](#config)
   - [Renderer](#renderer)
   - [WinAPI](#winapi)
+  - [Cheat](#cheat)
   - [Fortnite](#fortnite)
   - [JSON](#json)
 - [Additional Script Examples](#additional-script-examples)
@@ -251,6 +252,13 @@ Create visual elements similar to those under the cheat's "Visuals" tab using ou
 
 :computer: **Priority: Low**  
 Unlock a portion of the Windows API for cheat development. Although not native to Lua, this library makes commonly used Windows functionalities accessible.
+
+---
+
+### [Cheat](built-in-libs/cheat.md)
+
+:game_die: **Priority: Low**
+The Cheat library provides access to built-in cheat functionalities, allowing interaction with core cheat features and settings.
 
 ---
 
