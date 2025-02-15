@@ -40,7 +40,7 @@ Retrives the *current* or a *potential* aimbot target depending on the `currentT
 
 #### Parameters
 
-- `currentTarget`: If `true`, the function will return the aimbot target that the cheat is currently targeting at. In this case a return value of `nil` indicates the user is not targeting anyone currently. If `false` the function will return the aimbot target which best fits the requirements of the aimbot settings in the menu; these are defined by the user. In this case every call of the function rescans all players, so there is no caching of the target; a return value of `nil` means that there is absolutely no potential aimbot target, e.g. because all players are outside of the `FOV` circle setup by the user.
+- `currentTarget`: If `true`, the function will return the aimbot target that the cheat is currently targeting. In this case a return value of `nil` indicates the user is not targeting anyone currently. If `false` the function will return the aimbot target which best fits the requirements of the aimbot settings in the menu; these are defined by the user. In this case every call of the function rescans all players, so there is no caching of the target; a return value of `nil` means that there is absolutely no potential aimbot target, e.g. because all players are outside of the `FOV` circle setup by the user.
 
 #### Return Value
 
