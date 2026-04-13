@@ -21,7 +21,6 @@
   - [FindObject](#findobject)
   - [LoadObject](#loadobject)
   - [LoadAsset](#loadasset)
-  - [GetClassOffset](#getclassoffset)
   - [GetObjectByIndex](#getobjectbyindex)
   - [GetObjectsCount](#getobjectscount)
   - [WorldToScreen](#worldtoscreen)
@@ -41,7 +40,7 @@
   - [GetEngine](#getengine)
   - [GetWorld](#getworld)
   - [GetGameInstance](#getgameinstance)
-  - [GetPersistantLevel](#getpersistantlevel)
+  - [GetPersistentLevel](#getpersistentlevel)
   - [GetActors](#getactors)
   - [GetActorsByLevel](#getactorsbylevel)
   - [GetLocalPlayer](#getlocalplayer)
@@ -464,30 +463,6 @@ end
 
 ---
 
-### `GetClassOffset`
-
-```lua
-function GetClassOffset(
-    className: string,
-    memberName: string
-) -> number[int]|nil
-```
-
-#### Description
-
-Gets the offset of a class member.
-
-#### Parameters
-
-- `className`: the name of the class.
-- `memberName`: the name of the class member.
-
-#### Return Value
-
-Returns the memory offset as a number, `nil` if not found.
-
----
-
 ### `GetObjectByIndex`
 
 ```lua
@@ -898,10 +873,10 @@ Returns a pointer to the game instance, or `nil` if not available.
 
 ---
 
-### `GetPersistantLevel`
+### `GetPersistentLevel`
 
 ```lua
-function GetPersistantLevel() -> number[ptr]|nil
+function GetPersistentLevel() -> number[ptr]|nil
 ```
 
 #### Description
